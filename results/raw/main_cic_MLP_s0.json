@@ -9,5 +9,6 @@
  "method": "MLP",
  "dataset": "cic",
  "seed": 0,
- "train_time_s": 7.071438312530518
+ "train_time_s": 7.071438312530518,
+ "tpr_at_1fpr": 0.9457760314341846
 }

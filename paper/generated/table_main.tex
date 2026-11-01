@@ -3,10 +3,13 @@
 \textbf{Method} & \textbf{Acc.} & \textbf{Prec.} & \textbf{Rec.} & \textbf{F1} & \textbf{FPR} & \textbf{AUC} & \textbf{M-F1} \\
 \midrule
 \multicolumn{8}{l}{\textit{CICIDS2017 (stratified subset)}} \\
-Isolation Forest~\cite{liu2008iforest} & 77.38 & 74.05 & 95.80 & 83.53 & 50.12 & 81.20 & -- \\
-Random Forest~\cite{breiman2001rf} & 99.41 & \textbf{99.57} & 99.45 & 99.51 & \textbf{0.65} & 99.85 & 97.63 \\
-XGBoost~\cite{chen2016xgboost} & \textbf{99.53} & 99.51 & \textbf{99.71} & \textbf{99.61} & 0.73 & \textbf{99.94} & \textbf{98.02} \\
-MLP & 97.65 & 96.79 & 99.37 & 98.06 & 4.93 & 99.78 & 92.79 \\
-CNN-LSTM~\cite{halbouni2022cnnlstm} & 97.65 & 97.92 & 98.15 & 98.04 & 3.11 & 99.57 & 90.54 \\
+Isolation Forest~\cite{liu2008iforest} & 77.22{\tiny$\pm$0.21} & 74.00{\tiny$\pm$0.25} & 95.51{\tiny$\pm$0.27} & 83.39{\tiny$\pm$0.13} & 50.09{\tiny$\pm$0.73} & 80.64{\tiny$\pm$0.86} & -- \\
+Random Forest~\cite{breiman2001rf} & 99.48{\tiny$\pm$0.08} & 99.59{\tiny$\pm$0.03} & 99.55{\tiny$\pm$0.11} & 99.57{\tiny$\pm$0.07} & 0.62{\tiny$\pm$0.04} & 99.88{\tiny$\pm$0.03} & \textbf{97.73{\tiny$\pm$0.10}} \\
+XGBoost~\cite{chen2016xgboost} & \textbf{99.62{\tiny$\pm$0.08}} & \textbf{99.63{\tiny$\pm$0.08}} & \textbf{99.74{\tiny$\pm$0.06}} & \textbf{99.68{\tiny$\pm$0.06}} & \textbf{0.56{\tiny$\pm$0.13}} & \textbf{99.96{\tiny$\pm$0.01}} & 97.35{\tiny$\pm$0.98} \\
+MLP & 97.74{\tiny$\pm$0.22} & 97.15{\tiny$\pm$0.38} & 99.13{\tiny$\pm$0.23} & 98.13{\tiny$\pm$0.18} & 4.34{\tiny$\pm$0.60} & 99.77{\tiny$\pm$0.01} & 93.29{\tiny$\pm$0.43} \\
+CNN-LSTM~\cite{halbouni2022cnnlstm} & 97.64{\tiny$\pm$0.19} & 97.45{\tiny$\pm$0.25} & 98.64{\tiny$\pm$0.32} & 98.04{\tiny$\pm$0.16} & 3.86{\tiny$\pm$0.40} & 99.57{\tiny$\pm$0.05} & 89.33{\tiny$\pm$1.58} \\
+BiLSTM (no attention) & 94.76{\tiny$\pm$0.65} & 94.86{\tiny$\pm$0.24} & 96.47{\tiny$\pm$0.90} & 95.66{\tiny$\pm$0.55} & 7.80{\tiny$\pm$0.33} & 98.88{\tiny$\pm$0.14} & 85.40{\tiny$\pm$3.19} \\
+Transformer~\cite{gorishniy2021revisiting} & 98.97{\tiny$\pm$0.27} & 98.82{\tiny$\pm$0.34} & 99.48{\tiny$\pm$0.12} & 99.15{\tiny$\pm$0.23} & 1.78{\tiny$\pm$0.51} & 99.86{\tiny$\pm$0.07} & 95.29{\tiny$\pm$0.82} \\
+\textbf{HALX (ours)} & 99.50{\tiny$\pm$0.09} & 99.48{\tiny$\pm$0.07} & 99.68{\tiny$\pm$0.08} & 99.58{\tiny$\pm$0.07} & 0.77{\tiny$\pm$0.11} & 99.95{\tiny$\pm$0.01} & 95.86{\tiny$\pm$0.44} \\
 \bottomrule
 \end{tabular}

@@ -22,12 +22,19 @@ NJ = int(os.environ.get("HALX_THREADS", 4))
 # --------------------------------------------------------------------------
 # Metrics
 # --------------------------------------------------------------------------
+def tpr_at_fpr(yb, p, target=0.01):
+    """Detection rate at a fixed false-alarm budget (ROC operating point)."""
+    from sklearn.metrics import roc_curve
+    fpr, tpr, _ = roc_curve(yb, p)
+    return float(np.interp(target, fpr, tpr))
+
+
 def binary_metrics(yb, p_attack, y_multi=None, pred_multi=None, tau=0.5):
     yhat = (p_attack >= tau).astype(int)
     tn, fp, fn, tp = confusion_matrix(yb, yhat, labels=[0, 1]).ravel()
     out = dict(acc=accuracy_score(yb, yhat), precision=precision_score(yb, yhat, zero_division=0),
                recall=recall_score(yb, yhat), f1=f1_score(yb, yhat), fpr=fp / (fp + tn),
-               auc=roc_auc_score(yb, p_attack))
+               auc=roc_auc_score(yb, p_attack), tpr_at_1fpr=tpr_at_fpr(yb, p_attack, 0.01))
     if pred_multi is not None:
         out["macro_f1"] = f1_score(y_multi, pred_multi, average="macro")
     return {k: float(v) for k, v in out.items()}

@@ -1,0 +1,87 @@
+\input{generated/numbers}
+
+\begin{table*}[t]
+\caption{Binary detection (attack vs.\ benign, $\tau=0.5$) and multi-class macro-F1 (M-F1) on the test
+sets, mean{\tiny$\pm$std} over 3 seeds, in \%. Best mean per column and dataset in bold.
+All methods receive identical privatized inputs ($k=10$, $\varepsilon=1$).}
+\label{tab:main}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4.2pt}
+\input{generated/table_main}
+\end{table*}
+
+\subsection{Detection Performance}
+Table~\ref{tab:main} compares HALX with the seven baselines.
+
+\textbf{CICIDS2017.} Every supervised tree-based method is close to the
+ceiling. HALX reaches F1 \cicHALXfOne\% (FPR \cicHALXfpr\%), statistically
+level with Random Forest (\cicRFfOne\%) and within 0.1 points of
+XGBoost (\cicXGBoostfOne\%). The pure deep models fall clearly behind:
+the Transformer reaches \cicTransformerfOne\%, CNN-LSTM \cicCNNLSTMfOne\% and the attention-free
+BiLSTM \cicLSTMfOne\%, with 2--10$\times$ higher false-positive rates. Inside
+HALX the XGBoost head lifts the BiLSTM encoder by
+\UNSWorCICgap{} F1 points and cuts its FPR by an order of magnitude. This
+confirms that on flow features the trees should make the final
+decision~\cite{grinsztajn2022tree}.
+
+\textbf{UNSW-NB15.} On the official split all methods lose about ten
+accuracy points. The test set has a different benign/attack mix and
+benign traffic that is not represented in training, so at $\tau=0.5$
+every supervised model has a high FPR
+(\unswXGBoostfpr\% for XGBoost, \unswHALXfpr\% for HALX). This
+well-documented gap~\cite{catillo2022transferability,engelen2021troubleshooting}
+is far more realistic than the near-perfect CICIDS2017 numbers, and
+\UNSWsummary{}
+
+\begin{figure}[t]
+\centering
+\input{figures/fig_roc}
+\caption{ROC curves on the test sets (seed 0, log-scaled FPR). The low-FPR
+region corresponds to the alert budget of a SOC.}
+\label{fig:roc}
+\end{figure}
+
+\textbf{Operating point.} Fig.~\ref{fig:roc} shows that the ranking quality
+(AUC) of the tree-based models and HALX is much better than their
+$\tau=0.5$ FPR suggests. At a 1\% false-alarm budget on UNSW-NB15, HALX
+detects \UNSWtprHALX\% of attacks, compared with \UNSWtprXGB\% for XGBoost
+and \UNSWtprRF\% for Random Forest (seed 0). In deployment, $\tau$ should therefore be
+set to the SOC's alert budget, not left at 0.5.
+
+\subsection{Ablation Study}
+\begin{table}[t]
+\caption{Ablation of HALX components (test F1, FPR and macro-F1, \%).
+CICIDS2017: 3 seeds; UNSW-NB15: \ABLunswSeeds{}.}
+\label{tab:ablation}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\input{generated/table_ablation}
+\end{table}
+\ABLATIONTEXT{}
+
+\subsection{Privacy--Utility Trade-off}
+\begin{figure}[t]
+\centering
+\input{figures/fig_privacy}
+\caption{Test F1 vs.\ DP budget $\varepsilon$ (left, $k=10$) and
+anonymity level $k$ (right, $\varepsilon=1$). $\varepsilon=\infty$ and
+$k=1$ disable the respective mechanism.}
+\label{fig:privacy}
+\end{figure}
+\PRIVACYTEXT{}
+
+\subsection{Explainability and Severity Triage}
+\begin{figure}[t]
+\centering
+\input{figures/fig_attention_unsw}
+\caption{Mean attention-pooling weight of the ten features most attended
+for attack flows (UNSW-NB15 test set, seed 0), compared with benign flows.
+A uniform weight would be $1/42\approx2.4\%$.}
+\label{fig:attention}
+\end{figure}
+\EXPLAINTEXT{}
+
+\subsection{Computational Cost}
+\COSTTEXT{}

@@ -8,5 +8,6 @@
  "method": "IsolationForest",
  "dataset": "cic",
  "seed": 0,
- "train_time_s": 1.2725400924682617
+ "train_time_s": 1.2725400924682617,
+ "tpr_at_1fpr": 0.010609037328094302
 }

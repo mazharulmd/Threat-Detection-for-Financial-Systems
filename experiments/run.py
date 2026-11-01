@@ -97,8 +97,7 @@ def run_main(dsname, seeds, methods, log):
                 p, pm, _ = T.run_baseline(meth, ds, tr, seed, epochs_for(dsname), log)
             rec = evaluate(p, pm, ds)
             rec.update(method=meth, dataset=dsname, seed=seed, train_time_s=time.time() - t0)
-            if seed == seeds[0]:
-                np.save(os.path.join(EXTRA, f"scores_{dsname}_{meth}_s{seed}.npy"), np.stack([ds.test.yb, p]))
+            np.save(os.path.join(EXTRA, f"scores_{dsname}_{meth}_s{seed}.npy"), np.stack([ds.test.yb, p]))
             log(json.dumps(rec))
             save(path, rec)
 

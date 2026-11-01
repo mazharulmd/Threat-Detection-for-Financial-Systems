@@ -1,0 +1,21 @@
+% Shared pgfplots styles. Colours: validated categorical palette (CVD-safe);
+% each series also has a distinct dash pattern / marker for grayscale print.
+
+\definecolor{cA}{HTML}{2A78D6} % HALX
+\definecolor{cB}{HTML}{EB6834} % XGBoost
+\definecolor{cC}{HTML}{1BAF7A} % RF / UNSW
+\definecolor{cD}{HTML}{6250D6} % Transformer
+\definecolor{cGrid}{HTML}{E4E3DF}
+\pgfplotsset{
+  halxbase/.style={
+    tick label style={font=\tiny}, label style={font=\scriptsize},
+    title style={font=\scriptsize, yshift=-1.2ex},
+    legend style={font=\tiny, draw=none, fill=none},
+    grid=major, major grid style={cGrid, thin},
+    axis line style={black!60}, tick style={black!60},
+  },
+  sHALX/.style={cA, line width=1.1pt},
+  sXGB/.style={cB, line width=0.9pt, densely dashed},
+  sRF/.style={cC, line width=0.9pt, dash dot},
+  sTR/.style={cD, line width=0.9pt, densely dotted},
+}

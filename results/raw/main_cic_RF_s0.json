@@ -9,5 +9,6 @@
  "method": "RF",
  "dataset": "cic",
  "seed": 0,
- "train_time_s": 15.77382206916809
+ "train_time_s": 15.77382206916809,
+ "tpr_at_1fpr": 0.9962671905697446
 }

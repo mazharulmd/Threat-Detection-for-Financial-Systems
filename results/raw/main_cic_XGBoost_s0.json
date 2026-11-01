@@ -9,5 +9,6 @@
  "method": "XGBoost",
  "dataset": "cic",
  "seed": 0,
- "train_time_s": 13.677035570144653
+ "train_time_s": 13.677035570144653,
+ "tpr_at_1fpr": 0.9982318271119843
 }

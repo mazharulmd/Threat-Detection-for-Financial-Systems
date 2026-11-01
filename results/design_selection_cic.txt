@@ -1,0 +1,7 @@
+# HALX head design selection on CICIDS2017 validation (second half of val; test never used).
+# Run before the privacy-layer ordering fix; relative comparison only. Chosen: A (pre-specified design).
+XGB-raw {'acc': 0.9953, 'precision': 0.9961, 'recall': 0.9961, 'f1': 0.9961, 'fpr': 0.0059, 'auc': 0.9998, 'macro_f1': 0.9448}
+enc-dense {'acc': 0.9758, 'precision': 0.9731, 'recall': 0.9871, 'f1': 0.9801, 'fpr': 0.0415, 'auc': 0.9972, 'macro_f1': 0.8983}
+A emb+raw {'acc': 0.9939, 'precision': 0.9945, 'recall': 0.9953, 'f1': 0.9949, 'fpr': 0.0083, 'auc': 0.9997, 'macro_f1': 0.9442}
+C prob+raw {'acc': 0.9941, 'precision': 0.9953, 'recall': 0.9949, 'f1': 0.9951, 'fpr': 0.0071, 'auc': 0.9997, 'macro_f1': 0.9451}
+B oof-prob+raw {'acc': 0.9936, 'precision': 0.9957, 'recall': 0.9938, 'f1': 0.9947, 'fpr': 0.0065, 'auc': 0.9998, 'macro_f1': 0.9437}

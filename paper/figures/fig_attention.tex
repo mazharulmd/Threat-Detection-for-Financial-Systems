@@ -1,0 +1,16 @@
+% Mean attention-pooling weight per feature token (top-10 for attack flows), test set, seed 0.
+% #1 = dataset key (cic/unsw)
+\begin{tikzpicture}
+\begin{axis}[
+  halxbase, xbar=0pt, width=0.95\columnwidth, height=0.62\columnwidth,
+  bar width=2.3pt, xmin=0, xlabel={Mean attention weight $\bar\alpha_j$ (\%)},
+  ytick=data, yticklabels from table={generated/attn_#1.dat}{name},
+  y tick label style={font=\tiny}, enlarge y limits=0.06,
+  legend style={at={(0.98,0.03)}, anchor=south east, font=\tiny},
+  major y grid style={draw=none}, area legend,
+]
+\addplot[fill=cA, draw=none] table[y=i, x=attack] {generated/attn_#1.dat};
+\addplot[fill=cB, draw=none] table[y=i, x=benign] {generated/attn_#1.dat};
+\legend{attack flows, benign flows}
+\end{axis}
+\end{tikzpicture}

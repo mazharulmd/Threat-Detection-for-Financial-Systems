@@ -1,28 +1,22 @@
 % ======================================================================
-\section{Threat Model and Problem Statement}
-\label{sec:problem}
-% ======================================================================
-We consider the network segment of a financial institution (for example
-core banking, payment switching or online banking front-ends) monitored by a
-flow exporter. Each bidirectional flow is summarized as a record
-$\mathbf{r}=(\mathbf{r}^{\mathrm{num}},\mathbf{r}^{\mathrm{cat}})$ with $d$
-numeric and $c$ categorical attributes. The adversary is an external or
-insider attacker whose activity (reconnaissance, exploitation, DoS/DDoS,
-brute force, botnet C\&C, web attacks, backdoors) produces flows. The task
-is to output, for every flow, a threat score $p\in[0,1]$, a binary decision
-$\hat{y}=\mathbb{1}[p\ge\tau]$, an attack family and a severity tier. A
-second, \emph{honest-but-curious} party is also considered: an operator,
-vendor or auditor who sees the detector's stored inputs and its released
-preprocessing statistics. Against this party HALX must limit
-re-identification of individual flows.
-
-% ======================================================================
 \section{Proposed Framework: HALX}
 \label{sec:method}
 % ======================================================================
 Fig.~\ref{fig:architecture} shows the three stages: (1) a privacy-preserving
 layer, (2) an Attention-LSTM encoder and (3) an XGBoost scoring head with
 severity triage. Algorithm~\ref{alg:halx} summarizes training.
+
+\textbf{Problem and threat model.} A flow exporter in the institution's
+network (core banking, payment switching, online-banking front-ends)
+summarizes each bidirectional flow as a record with $d$ numeric and $c$
+categorical attributes. External or insider attackers generate
+reconnaissance, exploit, DoS, brute-force, botnet and web-attack flows. For
+every flow HALX outputs a threat score $p\in[0,1]$, a decision
+$\hat{y}=\mathbb{1}[p\ge\tau]$, an attack family and a severity tier. We
+additionally consider an \emph{honest-but-curious} operator, vendor or
+auditor who can see the detector's stored inputs and its released
+preprocessing statistics. Against this party HALX must limit the
+re-identification of individual flows.
 
 \begin{figure*}[t]
 \centering
