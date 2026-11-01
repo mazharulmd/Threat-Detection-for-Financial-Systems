@@ -59,8 +59,8 @@ $\tau=0.5$ FPR suggests. At a 1\% false-alarm budget on UNSW-NB15, HALX
 detects \unswHALXtprOne\% of attacks. This is the highest of all
 methods: XGBoost reaches \unswXGBoosttprOne\%, CNN-LSTM
 \unswCNNLSTMtprOne\%, the Transformer \unswTransformertprOne\% and Random
-Forest \unswRFtprOne\% (seed 0). In deployment, $\tau$ should therefore be
-set to the SOC's alert budget, not left at 0.5.
+Forest \unswRFtprOne\% (seed 0). In deployment, $\tau$ should be set
+from the SOC's alert budget.
 
 \subsection{Ablation Study}
 \begin{table}[t]
@@ -76,23 +76,25 @@ Table~\ref{tab:ablation} isolates each component. The XGBoost head
 matters most: replacing it with the encoder's dense softmax head raises the
 CICIDS2017 FPR from \cicablfullfpr\% to \cicablnoxgboostfpr\% and lowers
 UNSW-NB15 macro-F1 from \unswablfullmfOne\% to \unswablnoxgboostmfOne\%.
-Passing the raw features to the head alongside the embedding also helps
-on both datasets. Attention pooling gives a smaller gain in binary F1
-(\cicablnoattentionfOne\%$\to$\cicablfullfOne\% and
-\unswablnoattentionfOne\%$\to$\unswablfullfOne\%) and, more importantly,
-provides the explanations of Sec.~\ref{sec:explain}. SMOTE, common in
-IDS pipelines~\cite{ullah2023idsint}, did \emph{not} help: binary F1 is unchanged without it, and
-CICIDS2017 macro-F1 is even higher (\cicablnosmotemfOne\%). We report it
-for completeness and recommend omitting it. Removing the privacy layer
-changes F1 by only \cicprivcost{} and \unswprivcost{} points.
+Passing the raw features to the head alongside the embedding also helps on
+both datasets (CICIDS2017 FPR \cicablnorawfeaturesfpr\% without them).
+Attention pooling, by contrast, does \emph{not} improve accuracy on the
+saturated CICIDS2017 subset (F1 \cicablnoattentionfOne\% with mean pooling
+vs.\ \cicablfullfOne\%). It gives a small gain on UNSW-NB15
+(\unswablnoattentionfOne\%$\to$\unswablfullfOne\%). Its main value is the
+per-alert explanation of Sec.~\ref{sec:explain}, obtained at no accuracy
+cost. SMOTE, common in IDS pipelines~\cite{ullah2023idsint}, did not help
+either: binary F1 is unchanged without it and CICIDS2017 macro-F1 rises to
+\cicablnosmotemfOne\%, so we recommend omitting it. The privacy layer costs
+$\cicprivcost$ (CICIDS2017) and $\unswprivcost$ (UNSW-NB15) F1 points.
 
 \subsection{Privacy--Utility Trade-off}
 \begin{figure}[t]
 \centering
 \input{figures/fig_privacy}
-\caption{Test F1 vs.\ DP budget $\varepsilon$ (left, $k=10$) and
-anonymity level $k$ (right, $\varepsilon=1$). $\varepsilon=\infty$ and
-$k=1$ disable the respective mechanism.}
+\caption{Change in test F1 (percentage points, relative to the mechanism
+disabled) vs.\ DP budget $\varepsilon$ (left, $k=10$) and anonymity level
+$k$ (right, $\varepsilon=1$); seed 0.}
 \label{fig:privacy}
 \end{figure}
 Fig.~\ref{fig:privacy} varies one mechanism at a time (XGBoost on both

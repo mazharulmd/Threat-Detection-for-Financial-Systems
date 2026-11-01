@@ -1,13 +1,13 @@
 % Privacy-utility trade-off: F1 and FPR vs epsilon (k=10) and vs k (eps=1).
 \begin{tikzpicture}
 \begin{groupplot}[
-  group style={group size=2 by 1, horizontal sep=9mm},
+  group style={group size=2 by 1, horizontal sep=6mm},
   halxbase, width=0.6\columnwidth, height=0.42\columnwidth,
-  xtick={0,1,2,3,4}, ylabel={$\Delta$F1 vs.\ non-private (pp)},
-  legend columns=3, legend to name=privleg,
+  xtick={0,1,2,3,4},
   every axis plot/.append style={mark size=1.6pt},
 ]
-\nextgroupplot[title={DP budget ($k{=}10$)}, xlabel={$\varepsilon$},
+\nextgroupplot[title={DP budget ($k{=}10$)}, xlabel={$\varepsilon$}, ylabel={$\Delta$F1 (pp)},
+  legend style={at={(0.97,0.04)}, anchor=south east, fill=white, draw=none, row sep=-2pt},
   xticklabels={0.01,0.1,1,10,$\infty$}]
 \addplot[sXGB, mark=square*] table[x=x,y=df1] {generated/priv_unsw_XGBoost_eps.dat};
 \addplot[sRF, mark=triangle*] table[x=x,y=df1] {generated/priv_cic_XGBoost_eps.dat};
@@ -19,5 +19,4 @@
 \addplot[sRF, mark=triangle*] table[x=x,y=df1] {generated/priv_cic_XGBoost_k.dat};
 \IfFileExists{generated/priv_cic_HALX_k.dat}{\addplot[sHALX, mark=*] table[x=x,y=df1] {generated/priv_cic_HALX_k.dat};}{}
 \end{groupplot}
-\node[anchor=north] at ($(group c1r1.south)!0.5!(group c2r1.south)+(0,-7mm)$) {\pgfplotslegendfromname{privleg}};
 \end{tikzpicture}
