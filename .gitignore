@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+data/unsw/
+data/cic/
+paper/*.aux
+paper/*.log
+paper/*.bbl
+paper/*.blg
+paper/*.out
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.synctex.gz
+results/bg_*.out

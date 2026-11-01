@@ -1,0 +1,12 @@
+\begin{tabular}{@{}l@{\hspace{3pt}}ccccccc@{}}
+\toprule
+\textbf{Method} & \textbf{Acc.} & \textbf{Prec.} & \textbf{Rec.} & \textbf{F1} & \textbf{FPR} & \textbf{AUC} & \textbf{M-F1} \\
+\midrule
+\multicolumn{8}{l}{\textit{CICIDS2017 (stratified subset)}} \\
+Isolation Forest~\cite{liu2008iforest} & 77.38 & 74.05 & 95.80 & 83.53 & 50.12 & 81.20 & -- \\
+Random Forest~\cite{breiman2001rf} & 99.41 & \textbf{99.57} & 99.45 & 99.51 & \textbf{0.65} & 99.85 & 97.63 \\
+XGBoost~\cite{chen2016xgboost} & \textbf{99.53} & 99.51 & \textbf{99.71} & \textbf{99.61} & 0.73 & \textbf{99.94} & \textbf{98.02} \\
+MLP & 97.65 & 96.79 & 99.37 & 98.06 & 4.93 & 99.78 & 92.79 \\
+CNN-LSTM~\cite{halbouni2022cnnlstm} & 97.65 & 97.92 & 98.15 & 98.04 & 3.11 & 99.57 & 90.54 \\
+\bottomrule
+\end{tabular}

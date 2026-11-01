@@ -1,0 +1,144 @@
+% ======================================================================
+\section{Threat Model and Problem Statement}
+\label{sec:problem}
+% ======================================================================
+We consider the network segment of a financial institution (for example
+core banking, payment switching or online banking front-ends) monitored by a
+flow exporter. Each bidirectional flow is summarized as a record
+$\mathbf{r}=(\mathbf{r}^{\mathrm{num}},\mathbf{r}^{\mathrm{cat}})$ with $d$
+numeric and $c$ categorical attributes. The adversary is an external or
+insider attacker whose activity (reconnaissance, exploitation, DoS/DDoS,
+brute force, botnet C\&C, web attacks, backdoors) produces flows. The task
+is to output, for every flow, a threat score $p\in[0,1]$, a binary decision
+$\hat{y}=\mathbb{1}[p\ge\tau]$, an attack family and a severity tier. A
+second, \emph{honest-but-curious} party is also considered: an operator,
+vendor or auditor who sees the detector's stored inputs and its released
+preprocessing statistics. Against this party HALX must limit
+re-identification of individual flows.
+
+% ======================================================================
+\section{Proposed Framework: HALX}
+\label{sec:method}
+% ======================================================================
+Fig.~\ref{fig:architecture} shows the three stages: (1) a privacy-preserving
+layer, (2) an Attention-LSTM encoder and (3) an XGBoost scoring head with
+severity triage. Algorithm~\ref{alg:halx} summarizes training.
+
+\begin{figure*}[t]
+\centering
+\resizebox{0.97\textwidth}{!}{\input{figures/architecture.tex}}
+\caption{The HALX pipeline. Raw flow records pass through the privacy layer
+(direct-identifier suppression, Mondrian $k$-anonymous generalization of
+quasi-identifiers, DP standardization). The Attention-LSTM encoder reads the
+privatized record as a sequence of feature tokens and produces an embedding
+$\mathbf{e}$. XGBoost scores $[\mathbf{e}\Vert\tilde{\mathbf{x}}]$, and the score is
+mapped to a severity tier together with the most-attended features.}
+\label{fig:architecture}
+\end{figure*}
+
+\subsection{Privacy-Preserving Layer}
+\label{sec:privacy}
+\textit{Suppression.} Direct identifiers (IP addresses, ports,
+timestamps, flow IDs) are dropped before any processing.
+
+\textit{Quasi-identifier generalization.} Let $Q\subset\{1,\dots,d\}$ be the
+quasi-identifiers (QIs). On UNSW-NB15 these are duration, source and
+destination bytes, and source TTL; on CICIDS2017 they are flow duration,
+forward and backward payload lengths, and the initial forward TCP window.
+Volumes play the role of transaction sizes, and TTL or window values
+fingerprint operating systems. After a public, data-independent transform
+$g(x)=\operatorname{sign}(x)\log(1+|x|)$, we build a strict Mondrian
+partition~\cite{lefevre2006mondrian} of the training QIs. Each region is
+split recursively at the median of its widest normalized QI, as long as both
+children keep at least $k$ records. Every record, in training or at
+inference, is routed to its leaf and its QIs are replaced by the leaf median.
+Hence every generalized QI vector the detector stores or logs is shared by
+at least $k$ training records ($k$-anonymity~\cite{sweeney2002kanon}). We use
+$k=10$ by default and verify the smallest equivalence class after fitting.
+
+\textit{DP standardization.} Standardization needs per-feature means and
+variances, which are normally shipped with a model and can reveal individual
+records when an outlier dominates. We release them with the Gaussian
+mechanism. With values clipped to $[-C,C]$ ($C=25$ in $g$-space) and public
+$n$, the sums $S_1=\sum_i x_i$ and $S_2=\sum_i x_i^2$ have replace-one
+sensitivities $2C$ and $C^2$. Each of the $2d$ released sums receives noise
+$\mathcal{N}(0,\Delta^2/2\rho_q)$ with $\rho_q=\rho/2d$, where
+\begin{equation}
+  \rho=\Bigl(\sqrt{\ln(1/\delta)+\varepsilon}-\sqrt{\ln(1/\delta)}\Bigr)^2
+  \label{eq:rho}
+\end{equation}
+is the largest $\rho$ for which $\rho$-zCDP implies
+$(\varepsilon,\delta)$-DP, using $\varepsilon=\rho+2\sqrt{\rho\ln(1/\delta)}$~\cite{bun2016zcdp}.
+By composition, the released statistics satisfy
+$(\varepsilon,\delta)$-DP. We use $\varepsilon=1$ and $\delta=10^{-5}$.
+\emph{Scope:} this protects the shipped statistics only. The network
+weights are not differentially private; that would require
+DP-SGD~\cite{abadi2016dpsgd} (Sec.~\ref{sec:discussion}).
+
+\subsection{Attention-LSTM Encoder}
+\label{sec:encoder}
+UNSW-NB15's partition files carry no timestamps and are sorted by label, and
+the CICIDS2017 subset is randomly sampled. Sliding windows of
+\emph{consecutive flows} would therefore leak labels through ordering, a form of
+data snooping~\cite{arp2022dos}. HALX instead reads each flow record as a
+sequence of $T=d+c$ \emph{feature tokens}, in the spirit of tabular
+transformers~\cite{gorishniy2021revisiting}:
+\begin{equation}
+  \mathbf{t}_j=\tilde{x}_j\,\mathbf{w}_j+\mathbf{b}_j\ (j\le d),\qquad
+  \mathbf{t}_{d+i}=\mathbf{E}_i[r^{\mathrm{cat}}_i]+\mathbf{b}_{d+i},
+  \label{eq:tok}
+\end{equation}
+with $\mathbf{w}_j,\mathbf{b}_j\in\mathbb{R}^{16}$. A two-layer bidirectional
+LSTM~\cite{hochreiter1997lstm} with 32 units per direction produces
+$\mathbf{H}=[\mathbf{h}_1,\dots,\mathbf{h}_T]\in\mathbb{R}^{T\times64}$. Here
+the recurrence models interactions between related features, for example
+packet counts, sizes and rates of the same direction. Multi-head
+self-attention~\cite{vaswani2017attention} with $H=4$ heads lets every token
+attend to every other:
+\begin{equation}
+  \mathbf{Z}=\mathrm{LN}\bigl(\mathbf{H}+\mathrm{MHA}(\mathbf{H}\mathbf{W}^Q,
+  \mathbf{H}\mathbf{W}^K,\mathbf{H}\mathbf{W}^V)\bigr),
+  \label{eq:mha}
+\end{equation}
+where each head computes
+$\mathrm{softmax}(QK^{\top}/\sqrt{d_k})V$. Additive attention pooling
+then yields the flow embedding together with an importance distribution
+over features:
+\begin{equation}
+  \alpha_j=\operatorname{softmax}_j\bigl(\mathbf{u}^{\top}\tanh(\mathbf{W}_a\mathbf{z}_j)\bigr),\qquad
+  \mathbf{e}=\textstyle\sum_{j}\alpha_j\mathbf{z}_j .
+  \label{eq:pool}
+\end{equation}
+The weights $\alpha_j$ are reported with each alert as an explanation.
+The encoder is trained end to end with a linear softmax head on the
+multi-class labels (cross-entropy, AdamW, learning rate $3\cdot10^{-3}$,
+cosine schedule, batch 1024). Early stopping uses validation macro-F1.
+
+\subsection{XGBoost Scoring Head and Severity Triage}
+\label{sec:head}
+The deep encoder captures cross-feature structure, but on tabular data
+boosted trees model sharp, axis-aligned decision boundaries better~\cite{grinsztajn2022tree}.
+The head therefore receives the concatenation
+$\mathbf{f}=[\mathbf{e}\,\Vert\,\tilde{\mathbf{x}}]$ of the embedding and the
+privatized features. One XGBoost model~\cite{chen2016xgboost} estimates
+$p=P(\text{attack}\mid\mathbf{f})$ and a second predicts the attack family
+(up to 800 trees, depth 8, learning rate 0.08, early stopping on the
+validation split). Alerts with $p\ge\tau=0.5$ are triaged into
+\emph{low} ($p<0.8$), \emph{medium} ($0.8\le p<0.95$) and \emph{high}
+($p\ge0.95$) severity, so SOC analysts can work through high-severity alerts first.
+
+\begin{algorithm}[t]
+\caption{HALX training}
+\label{alg:halx}
+\begin{algorithmic}[1]
+\REQUIRE training/validation flows $\mathcal{D}_{tr},\mathcal{D}_{va}$; QI set $Q$; $k,\varepsilon,\delta$
+\STATE Drop direct identifiers; apply $g(\cdot)$; impute with training medians
+\STATE Fit Mondrian tree on $\mathcal{D}_{tr}[Q]$ with leaf size $\ge k$; generalize $Q$
+\STATE Release $(\mu,\sigma)$ via Gaussian mechanism with $\rho(\varepsilon,\delta)$ (Eq.~\ref{eq:rho}); standardize $\to\tilde{\mathbf{x}}$
+\STATE Oversample minority families in $\mathcal{D}_{tr}$ with SMOTE-NC~\cite{chawla2002smote}
+\STATE Train encoder (Eqs.~\ref{eq:tok}--\ref{eq:pool}) with early stopping on $\mathcal{D}_{va}$
+\STATE Extract $\mathbf{f}=[\mathbf{e}\Vert\tilde{\mathbf{x}}]$ for $\mathcal{D}_{tr},\mathcal{D}_{va}$
+\STATE Fit binary and multi-class XGBoost on $\mathcal{D}_{tr}$, early-stopped on $\mathcal{D}_{va}$
+\RETURN privacy layer, encoder, XGBoost heads, threshold $\tau$
+\end{algorithmic}
+\end{algorithm}

@@ -1,0 +1,34 @@
+[cic s0] train=40429 (after SMOTE) val=8499 test=8500
+== main cic XGBoost seed=0
+{"acc": 0.9952941176470588, "precision": 0.9950980392156863, "recall": 0.9970530451866405, "f1": 0.9960745829244357, "fpr": 0.007331378299120235, "auc": 0.9994497577332357, "macro_f1": 0.9801811722552257, "method": "XGBoost", "dataset": "cic", "seed": 0, "train_time_s": 13.677035570144653}
+== main cic RF seed=0
+{"acc": 0.9941176470588236, "precision": 0.9956726986624705, "recall": 0.9944990176817289, "f1": 0.9950855120896402, "fpr": 0.0064516129032258064, "auc": 0.9985448726443087, "macro_f1": 0.9762879611242424, "method": "RF", "dataset": "cic", "seed": 0, "train_time_s": 15.77382206916809}
+== main cic IsolationForest seed=0
+{"acc": 0.7737647058823529, "precision": 0.7404707668944571, "recall": 0.9579567779960707, "f1": 0.8352890792291221, "fpr": 0.5011730205278593, "auc": 0.812013233930022, "method": "IsolationForest", "dataset": "cic", "seed": 0, "train_time_s": 1.2725400924682617}
+== main cic MLP seed=0
+  ep00 loss=0.4712 val_macroF1=0.8285 (0s)
+  ep01 loss=0.1573 val_macroF1=0.8757 (0s)
+  ep02 loss=0.1187 val_macroF1=0.8569 (0s)
+  ep03 loss=0.1009 val_macroF1=0.8956 (0s)
+  ep04 loss=0.0919 val_macroF1=0.9019 (0s)
+  ep05 loss=0.0847 val_macroF1=0.9065 (0s)
+  ep06 loss=0.0818 val_macroF1=0.9061 (0s)
+  ep07 loss=0.0746 val_macroF1=0.8999 (0s)
+  ep08 loss=0.0732 val_macroF1=0.9125 (0s)
+  ep09 loss=0.0706 val_macroF1=0.9080 (0s)
+  ep10 loss=0.0673 val_macroF1=0.9119 (0s)
+  ep11 loss=0.0651 val_macroF1=0.9150 (0s)
+  ep12 loss=0.0639 val_macroF1=0.9141 (0s)
+  ep13 loss=0.0627 val_macroF1=0.9141 (0s)
+  ep14 loss=0.0627 val_macroF1=0.9161 (0s)
+{"acc": 0.976, "precision": 0.966934250764526, "recall": 0.993909626719057, "f1": 0.9802363882968417, "fpr": 0.050733137829912026, "auc": 0.9977297789351786, "macro_f1": 0.9272324663593995, "method": "MLP", "dataset": "cic", "seed": 0, "train_time_s": 7.071438312530518}
+== main cic CNN-LSTM seed=0
+  ep00 loss=1.4463 val_macroF1=0.1725 (8s)
+  ep01 loss=0.9047 val_macroF1=0.3725 (8s)
+  ep02 loss=0.5212 val_macroF1=0.6433 (9s)
+  ep03 loss=0.3448 val_macroF1=0.8024 (9s)
+  ep04 loss=0.2641 val_macroF1=0.8022 (9s)
+  ep05 loss=0.2295 val_macroF1=0.8747 (9s)
+  ep06 loss=0.1943 val_macroF1=0.8798 (8s)
+  ep07 loss=0.1701 val_macroF1=0.8858 (9s)
+  ep08 loss=0.1576 val_macroF1=0.9032 (9s)

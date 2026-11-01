@@ -1,0 +1,37 @@
+% HALX architecture (TikZ). Included from main.tex.
+\begin{tikzpicture}[
+  font=\scriptsize, >=latex, node distance=3.2mm,
+  blk/.style={draw, rounded corners=1.5pt, align=center, minimum height=6.5mm, inner sep=2pt, fill=#1},
+  blk/.default=white,
+  grp/.style={draw, dashed, rounded corners=3pt, inner sep=2.6pt},
+  lab/.style={font=\tiny\itshape, text=black!70},
+  arr/.style={->, thick, black!75}]
+% ---- input and privacy layer
+\node[blk=gray!12, minimum width=13mm] (raw) {Flow record\\$\mathbf{r}$ (raw)};
+\node[blk=red!10, right=of raw, minimum width=17mm] (sup) {Suppress direct\\identifiers};
+\node[blk=red!10, right=of sup, minimum width=19mm] (mond) {Mondrian\\$k$-anonymity on QIs};
+\node[blk=red!10, right=of mond, minimum width=16mm] (dp) {$(\varepsilon,\delta)$-DP\\standardization};
+\node[grp, draw=red!60, fit=(sup)(mond)(dp), label={[lab, anchor=south east]north east:(1) Privacy-preserving layer}] (P) {};
+\draw[arr] (raw) -- (sup); \draw[arr] (sup) -- (mond); \draw[arr] (mond) -- (dp);
+% ---- encoder
+\node[blk=blue!8, below=8mm of raw.south west, anchor=north west, minimum width=13mm] (tok) {Feature\\tokenizer};
+\node[blk=blue!8, right=of tok, minimum width=15mm] (lstm) {2-layer\\BiLSTM};
+\node[blk=blue!8, right=of lstm, minimum width=15mm] (mha) {Multi-head\\self-attn.\,+\,LN};
+\node[blk=blue!8, right=of mha, minimum width=13mm] (pool) {Attention\\pooling};
+\node[grp, draw=blue!60, fit=(tok)(lstm)(mha)(pool), label={[lab, anchor=north west]south west:(2) Attention-LSTM encoder}] (E) {};
+\draw[arr] (tok) -- node[above, lab]{$T{\times}d$} (lstm);
+\draw[arr] (lstm) -- node[above, lab]{$\mathbf{H}$} (mha);
+\draw[arr] (mha) -- node[above, lab]{$\mathbf{Z}$} (pool);
+\draw[arr] (dp.south) |- ++(0,-3.2mm) -| node[pos=0.25, above, lab]{$\tilde{\mathbf{x}}$} (tok.north);
+% ---- head
+\node[blk=green!10, right=6mm of pool, minimum width=14mm] (cat) {$[\mathbf{e}\,\Vert\,\tilde{\mathbf{x}}]$};
+\node[blk=green!10, right=of cat, minimum width=13mm] (xgb) {XGBoost\\$p(\text{attack})$};
+\node[grp, draw=green!50!black, fit=(cat)(xgb), label={[lab, anchor=north east]south east:(3) Scoring head}] (X) {};
+\draw[arr] (pool) -- node[above, lab]{$\mathbf{e}$} (cat);
+\draw[arr] (cat) -- (xgb);
+\draw[arr, dashed] (dp.east) -| (cat.north);
+% ---- alerting
+\node[blk=orange!15, right=6mm of xgb, minimum width=12mm] (alert) {Severity\\triage};
+\draw[arr] (xgb) -- (alert);
+\node[lab, below=0.5mm of alert, align=center] {low / med. / high\\+ top attended\\features};
+\end{tikzpicture}
