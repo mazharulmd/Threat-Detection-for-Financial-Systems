@@ -3,20 +3,19 @@
 \label{sec:exp}
 % ======================================================================
 \subsection{Datasets and Protocol}
-Table~\ref{tab:data} summarizes the data.
 \textbf{UNSW-NB15}~\cite{moustafa2015unsw}: we use the official partition
-(175{,}341 training / 82{,}332 test flows; 9 attack families). Of the training
-part, 15\% is held out for validation (stratified), and the official test set
-is used only for final reporting. Its attack mix differs from the training
-mix (55.1\% vs.\ 68.1\% attacks), which makes this the harder, more
-realistic setting.
+(175{,}341 training / 82{,}332 test flows; 9 attack families; 39 numeric
+and 3 categorical attributes, i.e.\ 42 tokens). 15\% of the training part
+is held out for validation, and the test set is used only for final
+reporting. Its attack share differs from training (55.1\% vs.\ 68.1\%),
+which makes this the harder, more realistic setting.
 \textbf{CICIDS2017}~\cite{sharafaldin2018cicids}: we use the publicly
 released stratified subset of Yang et al.~\cite{yang2022mthids}
 (56{,}661 flows, 77 features, 6 grouped attack classes: DoS, PortScan,
-brute force, web attack, bot and infiltration). We split it 70/15/15 with stratification. The full 2.8M-flow
-release was not used for compute reasons. Because of known labelling issues
-in CICIDS2017~\cite{engelen2021troubleshooting}, we treat these results as a
-second, easier benchmark.
+brute force, web attack, bot and infiltration; 60 informative numeric
+features). We split it 70/15/15 (39{,}662/8{,}499/8{,}500 flows) with
+stratification. Given known labelling issues~\cite{engelen2021troubleshooting},
+we treat it as a second, easier benchmark.
 Duplicate and constant columns (decided on training data only) are removed,
 infinite values are imputed with training medians, and categorical
 attributes keep their 31 most frequent levels plus an ``other'' bucket.
@@ -25,22 +24,6 @@ the \emph{training} split only. Every configuration is run with three seeds
 (0, 1, 2); the seed changes the train/validation split, SMOTE, weight
 initialization and the DP noise. We report mean${}\pm{}$std.
 
-\begin{table}[t]
-\caption{Dataset statistics after preprocessing}
-\label{tab:data}
-\centering
-\footnotesize
-\setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{@{}lcccccc@{}}
-\toprule
-\textbf{Dataset} & \textbf{Train} & \textbf{Val} & \textbf{Test} & \textbf{Tokens} & \textbf{Classes} & \textbf{Attack\%} \\
-\midrule
-CICIDS2017 (subset) & 39{,}662 & 8{,}499 & 8{,}500 & 60 & 7 & 59.9 \\
-UNSW-NB15 (official) & 149{,}039 & 26{,}302 & 82{,}332 & 42 & 10 & 68.1 / 55.1$^{\dagger}$ \\
-\bottomrule
-\multicolumn{7}{@{}l}{\scriptsize $^{\dagger}$train / test; tokens = numeric features + categorical attributes.}
-\end{tabular}
-\end{table}
 
 \subsection{Baselines}
 All baselines receive the same privatized inputs:

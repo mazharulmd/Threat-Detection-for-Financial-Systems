@@ -1,5 +1,6 @@
 % Mean attention-pooling weight per feature token (top-10 for attack flows), test set, seed 0.
-% #1 = dataset key (cic/unsw)
+% usage: \attnfig{unsw}
+\newcommand{\attnfig}[1]{%
 \begin{tikzpicture}
 \begin{axis}[
   halxbase, xbar=0pt, width=0.95\columnwidth, height=0.62\columnwidth,
@@ -13,4 +14,4 @@
 \addplot[fill=cB, draw=none] table[y=i, x=benign] {generated/attn_#1.dat};
 \legend{attack flows, benign flows}
 \end{axis}
-\end{tikzpicture}
+\end{tikzpicture}}

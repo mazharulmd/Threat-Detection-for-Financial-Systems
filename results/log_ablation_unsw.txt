@@ -1,0 +1,6 @@
+== ablation unsw no_attention seed=0
+  ep00 loss=1.1750 val_macroF1=0.3410 (47s)
+  ep01 loss=0.7066 val_macroF1=0.4195 (47s)
+  ep02 loss=0.6498 val_macroF1=0.4366 (46s)
+  ep03 loss=0.6205 val_macroF1=0.4544 (45s)
+  ep04 loss=0.5938 val_macroF1=0.4638 (47s)

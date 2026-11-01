@@ -1,1 +1,16 @@
-TBD.
+We presented HALX, a hybrid Attention-LSTM and XGBoost detector for
+financial network flows. Its privacy layer provides formally stated
+$k$-anonymity and differential-privacy guarantees. In a controlled
+comparison over three seeds, HALX matched the accuracy of the strongest
+tree ensembles and clearly outperformed CNN-LSTM, BiLSTM and Transformer
+detectors on CICIDS2017. Under the distribution shift of the official
+UNSW-NB15 split it detected the most attacks at a 1\% false-alarm budget
+(seed-0 ROC analysis), and it had the most stable false-positive rate
+across seeds. The privacy layer
+cost at most a few tenths of an F1 point. Attention weights and calibrated
+severity tiers make each alert explainable and easy to rank. The broader
+lesson for financial SOCs is that boosted trees should make the final
+decision on flow features, while deep encoders contribute representation,
+stability and explanation. Future work will add DP-SGD training,
+federated deployment across institutions, adversarial evaluation and
+validation on bank traffic.

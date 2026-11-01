@@ -9,5 +9,6 @@
  "method": "Transformer",
  "dataset": "unsw",
  "seed": 0,
- "train_time_s": 660.4068171977997
+ "train_time_s": 660.4068171977997,
+ "tpr_at_1fpr": 0.8255316332833319
 }

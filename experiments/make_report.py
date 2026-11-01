@@ -118,11 +118,14 @@ def privacy_data():
             for kind in ["eps", "k"]:
                 pts = sorted([r for r in recs if r["kind"] == kind],
                              key=lambda r: (r["value"] is None, r["value"] or 0))
+                # reference = mechanism disabled (eps=inf, k=1)
+                ref = [r for r in pts if (r["value"] is None if kind == "eps" else r["value"] == 1)]
+                f1ref = ref[0]["f1"] if ref else np.nan
                 with open(os.path.join(GEN, f"priv_{ds}_{model}_{kind}.dat"), "w") as f:
-                    f.write("x label f1 fpr macro_f1 auc\n")
+                    f.write("x label f1 df1 fpr macro_f1 auc\n")
                     for i, r in enumerate(pts):
                         lab = "inf" if r["value"] is None else r["value"]
-                        f.write(f"{i} {lab} {100*r['f1']:.3f} {100*r['fpr']:.3f} {100*r['macro_f1']:.3f} {100*r['auc']:.4f}\n")
+                        f.write(f"{i} {lab} {100*r['f1']:.3f} {100*(r['f1']-f1ref):.3f} {100*r['fpr']:.3f} {100*r['macro_f1']:.3f} {100*r['auc']:.4f}\n")
 
 
 def roc_data(n_pts=200):
@@ -159,6 +162,10 @@ def attention_data(top=10):
         out[ds] = {name: dict(n=int((bands == i).sum()), attack_frac=float(yb[bands == i].mean()) if (bands == i).any() else None)
                    for i, name in enumerate(["benign", "low", "medium", "high"])}
         out[ds]["uniform_attention"] = 1.0 / len(names)
+        fp = (bands >= 1) & (yb == 0)
+        out[ds]["fp_share_low_medium"] = float(((bands == 1) | (bands == 2))[fp].mean()) if fp.any() else None
+        out[ds]["alert_share_high"] = float((bands == 3).sum() / max((bands >= 1).sum(), 1))
+        out[ds]["top10_attack_mass"] = float(np.sort(a)[-10:].sum())
     json.dump(out, open(os.path.join(GEN, "severity_attention.json"), "w"), indent=1)
 
 
@@ -201,11 +208,34 @@ def numbers():
     sev = os.path.join(GEN, "severity_attention.json")
     if os.path.exists(sev):
         for ds, d in json.load(open(sev)).items():
+            for key in ["fp_share_low_medium", "alert_share_high", "top10_attack_mass"]:
+                if d.get(key) is not None:
+                    L.append(f"\\newcommand{{{_mname(ds, key)}}}{{{100*d[key]:.1f}}}")
             for band in ["low", "medium", "high", "benign"]:
                 b = d[band]
                 if b["attack_frac"] is not None:
                     L.append(f"\\newcommand{{{_mname(ds, 'sev', band)}}}{{{100*b['attack_frac']:.1f}}}")
                     L.append(f"\\newcommand{{{_mname(ds, 'sevn', band)}}}{{{b['n']:,}}}".replace(",", "{,}"))
+    # derived quantities quoted in the text
+    def mean(ds, meth, k):
+        recs = load(f"main_{ds}_{meth}_s*.json")
+        return agg(recs, k)[0] if recs else np.nan
+    for ds in ["cic", "unsw"]:
+        g = 100 * (mean(ds, "HALX", "f1") - mean(ds, "LSTM", "f1"))
+        if not np.isnan(g):
+            L.append(f"\\newcommand{{{_mname(ds, 'gapfOne')}}}{{{g:.1f}}}")
+            L.append(f"\\newcommand{{{_mname(ds, 'fprratio')}}}{{{mean(ds, 'LSTM', 'fpr') / mean(ds, 'HALX', 'fpr'):.0f}}}")
+        full, nop = load(f"ablation_{ds}_full_s*.json"), load(f"ablation_{ds}_no_privacy_s*.json")
+        if full and nop:
+            seeds = {r["seed"] for r in nop}
+            full = [r for r in full if r["seed"] in seeds]  # paired comparison
+            L.append(f"\\newcommand{{{_mname(ds, 'privcost')}}}{{{100*(agg(nop, 'f1')[0]-agg(full, 'f1')[0]):.2f}}}")
+        for meth in MAIN_ORDER:
+            f = os.path.join(RAW, f"main_{ds}_{meth}_s0.json")
+            if os.path.exists(f):
+                r = json.load(open(f))
+                if "tpr_at_1fpr" in r:
+                    L.append(f"\\newcommand{{{_mname(ds, meth, 'tprOne')}}}{{{100*r['tpr_at_1fpr']:.1f}}}")
     open(os.path.join(GEN, "numbers.tex"), "w").write("\n".join(L) + "\n")
 
 

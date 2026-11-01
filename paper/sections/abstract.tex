@@ -1,3 +1,25 @@
 \begin{abstract}
-TBD.
+Financial institutions need intrusion detectors that are accurate and
+auditable and that do not themselves become a channel for leaking customer
+data. We present HALX, a framework for proactive threat detection in
+financial networks with three parts: a feature-token Attention-LSTM
+encoder, an XGBoost scoring head, and a privacy-preserving inference layer.
+The privacy layer enforces Mondrian $k$-anonymity on quasi-identifiers and
+releases the preprocessing statistics under $(\varepsilon,\delta)$-differential
+privacy. Every alert carries a threat score, a severity tier and the
+most-attended features as an explanation. We compare HALX with seven
+baselines over three seeds on the official UNSW-NB15 split and on a
+CICIDS2017 subset, giving every method the same privatized inputs. On
+CICIDS2017, HALX reaches an F1-score of \cicHALXfOne\% at a
+\cicHALXfpr\% false-positive rate. This is on par with the strongest tree
+ensembles and gives 2--10$\times$ fewer false alarms than CNN-LSTM, BiLSTM
+and Transformer detectors. On UNSW-NB15, a train--test distribution shift
+holds every model near 89\% F1 on average. There HALX matches XGBoost
+(\unswHALXfOne\%), has the most stable false-positive rate across seeds,
+and detects the most attacks at a 1\% false-alarm budget
+(\unswHALXtprOne\%, seed 0). Under this shift,
+\unswsevhigh\% of its high-severity alerts are real attacks. The privacy
+layer ($k{=}10$, $\varepsilon{=}1$) costs at most \PRIVCOSTMAX{} F1 points,
+and HALX scores thousands of flows per second on a CPU. Code and results
+are publicly available.
 \end{abstract}

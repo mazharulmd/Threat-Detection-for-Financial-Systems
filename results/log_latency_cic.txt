@@ -1,0 +1,10 @@
+  ep00 loss=1.1736 val_macroF1=0.3769 (41s)
+  ep01 loss=0.5413 val_macroF1=0.5979 (42s)
+  ep02 loss=0.3517 val_macroF1=0.7212 (42s)
+  ep03 loss=0.2536 val_macroF1=0.8397 (42s)
+  ep04 loss=0.1966 val_macroF1=0.7938 (42s)
+  ep05 loss=0.1696 val_macroF1=0.8725 (42s)
+  ep06 loss=0.1536 val_macroF1=0.8329 (42s)
+  ep07 loss=0.1295 val_macroF1=0.8607 (42s)
+  ep08 loss=0.1166 val_macroF1=0.8719 (42s)
+{"dataset": "cic", "n_test": 8500, "batch_throughput_flows_per_s": 3899.2675031948525, "single_latency_ms_median": 3.1863234989941702, "single_latency_ms_p95": 4.809832300179551, "privacy_layer_us_per_flow": 0.6167296470427092, "encoder_params": 61255, "xgb_trees_binary": 165, "train_time_s": 411.2354226112366, "threads": 2}

@@ -1,4 +1,3 @@
-\input{generated/numbers}
 
 \begin{table*}[t]
 \caption{Binary detection (attack vs.\ benign, $\tau=0.5$) and multi-class macro-F1 (M-F1) on the test
@@ -20,19 +19,31 @@ level with Random Forest (\cicRFfOne\%) and within 0.1 points of
 XGBoost (\cicXGBoostfOne\%). The pure deep models fall clearly behind:
 the Transformer reaches \cicTransformerfOne\%, CNN-LSTM \cicCNNLSTMfOne\% and the attention-free
 BiLSTM \cicLSTMfOne\%, with 2--10$\times$ higher false-positive rates. Inside
-HALX the XGBoost head lifts the BiLSTM encoder by
-\UNSWorCICgap{} F1 points and cuts its FPR by an order of magnitude. This
+HALX the XGBoost head lifts the BiLSTM encoder by \cicgapfOne{} F1 points
+and cuts its FPR about \cicfprratio-fold (from \cicLSTMfpr\% to \cicHALXfpr\%). This
 confirms that on flow features the trees should make the final
 decision~\cite{grinsztajn2022tree}.
 
-\textbf{UNSW-NB15.} On the official split all methods lose about ten
-accuracy points. The test set has a different benign/attack mix and
-benign traffic that is not represented in training, so at $\tau=0.5$
-every supervised model has a high FPR
+\textbf{UNSW-NB15.} On the official split all methods lose more than ten
+accuracy points. The test set has a different benign/attack mix (55\%
+vs.\ 68\% attacks), and its benign flows are evidently unlike those in
+training: at $\tau=0.5$ every supervised model has a high FPR
 (\unswXGBoostfpr\% for XGBoost, \unswHALXfpr\% for HALX). This
 well-documented gap~\cite{catillo2022transferability,engelen2021troubleshooting}
-is far more realistic than the near-perfect CICIDS2017 numbers, and
-\UNSWsummary{}
+is far more realistic than the near-perfect CICIDS2017 numbers. All
+supervised models then cluster around F1${}\approx{}$89\%. HALX
+(\unswHALXfOne{\tiny$\pm$\unswHALXfOnesd}\%) is tied with XGBoost
+(\unswXGBoostfOne{\tiny$\pm$\unswXGBoostfOnesd}\%) and has the highest AUC
+among the deep models. The Transformer reaches a slightly higher mean F1
+(\unswTransformerfOne\%), but is unstable: its standard deviation across
+seeds is \unswTransformerfOnesd{} points and its FPR ranges from 18\% to
+36\%. HALX has the most stable false-positive rate of all methods
+(std \unswHALXfprsd{} points, compared with \unswXGBoostfprsd{} for XGBoost). The
+XGBoost head again improves on the attention-free BiLSTM, by
+\unswgapfOne{} F1 points and 7.5 macro-F1 points. On multi-class
+macro-F1, plain trees remain best on both datasets: the rare families
+(Worms, Infiltration; ${<}0.1$\% of the data) gain little from the
+learned embedding.
 
 \begin{figure}[t]
 \centering
@@ -45,8 +56,10 @@ region corresponds to the alert budget of a SOC.}
 \textbf{Operating point.} Fig.~\ref{fig:roc} shows that the ranking quality
 (AUC) of the tree-based models and HALX is much better than their
 $\tau=0.5$ FPR suggests. At a 1\% false-alarm budget on UNSW-NB15, HALX
-detects \UNSWtprHALX\% of attacks, compared with \UNSWtprXGB\% for XGBoost
-and \UNSWtprRF\% for Random Forest (seed 0). In deployment, $\tau$ should therefore be
+detects \unswHALXtprOne\% of attacks. This is the highest of all
+methods: XGBoost reaches \unswXGBoosttprOne\%, CNN-LSTM
+\unswCNNLSTMtprOne\%, the Transformer \unswTransformertprOne\% and Random
+Forest \unswRFtprOne\% (seed 0). In deployment, $\tau$ should therefore be
 set to the SOC's alert budget, not left at 0.5.
 
 \subsection{Ablation Study}
@@ -75,13 +88,40 @@ $k=1$ disable the respective mechanism.}
 \subsection{Explainability and Severity Triage}
 \begin{figure}[t]
 \centering
-\input{figures/fig_attention_unsw}
+\attnfig{unsw}
 \caption{Mean attention-pooling weight of the ten features most attended
 for attack flows (UNSW-NB15 test set, seed 0), compared with benign flows.
 A uniform weight would be $1/42\approx2.4\%$.}
 \label{fig:attention}
 \end{figure}
-\EXPLAINTEXT{}
+\textbf{Attention as explanation.} Attention is far from uniform
+(Fig.~\ref{fig:attention}). On UNSW-NB15 the ten most-attended tokens carry
+\unswtopOneZeroattackmass\% of the weight of attack flows, compared with
+23.8\% under uniform weights. For attacks the encoder concentrates on
+service, protocol and connection state, on whether source and destination
+share IP and port (\texttt{is\_sm\_ips\_ports}) and on handshake timing
+(\texttt{synack}, \texttt{tcprtt}). For benign flows the weight is spread
+more evenly over the connection-count features (\texttt{ct\_*}). On
+CICIDS2017, attack flows emphasize the ACK-flag count and backward segment
+size, whereas benign flows put 25.8\% of their attention on the FIN-flag
+count, consistent with gracefully closed TCP sessions. With each alert, HALX
+reports its top-attended features, which gives an analyst a concrete
+starting point without a post-hoc explainer.
+
+\textbf{Severity triage.} The tiers are well ordered. On UNSW-NB15,
+\unswsevhigh\% of the \unswsevnhigh{} high-severity alerts are true attacks,
+against \unswsevmedium\% for medium and \unswsevlow\% for low
+severity, and \unswfpsharelowmedium\% of all false positives fall into the
+low and medium tiers. An analyst who works through high-severity alerts
+first therefore sees mostly real attacks, even under the distribution shift
+that causes the high overall FPR. On CICIDS2017 the high tier reaches
+\cicsevhigh\% precision.
 
 \subsection{Computational Cost}
-\COSTTEXT{}
+The HALX encoder has only \cicparams{} (CICIDS2017) and \unswparams{}
+(UNSW-NB15) parameters. Training on 2 CPU threads takes \cicHALXtime{} and
+\unswHALXtime{} minutes, respectively, including both XGBoost heads. In batch
+mode HALX scores \cicthru{} and \unswthru{} flows/s. Scoring a single flow
+takes a median of \unswlatmed\,ms (p95 \unswlatpn\,ms) on UNSW-NB15, and the
+privacy layer adds less than \unswprivus\,$\mu$s per flow. No GPU is
+required.

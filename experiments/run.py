@@ -142,8 +142,9 @@ def run_ablation(dsname, seeds, log):
 
 
 def run_privacy(dsname, seeds, log, model="HALX"):
-    grid = [("eps", e) for e in [0.01, 0.1, 1.0, 10.0, None]] + \
-           [("k", k) for k in [1, 5, 25, 100, 500]]
+    grid = [("eps", e) for e in [0.01, 0.1, 1.0, 10.0, None]]
+    if model != "HALX":  # k sweep run with XGBoost only (compute budget); layer is model-agnostic
+        grid += [("k", k) for k in [1, 5, 25, 100, 500]]
     for seed in seeds:
         for kind, val in grid:
             cfg = f"{model}_{kind}{val}"

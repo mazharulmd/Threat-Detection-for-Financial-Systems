@@ -1,0 +1,5 @@
+  ep00 loss=0.9610 val_macroF1=0.3491 (89s)
+  ep01 loss=0.6854 val_macroF1=0.4437 (88s)
+  ep02 loss=0.6333 val_macroF1=0.4385 (93s)
+  ep03 loss=0.6099 val_macroF1=0.4630 (96s)
+  ep04 loss=0.5799 val_macroF1=0.4767 (96s)

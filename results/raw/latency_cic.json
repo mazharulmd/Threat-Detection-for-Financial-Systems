@@ -1,0 +1,12 @@
+{
+ "dataset": "cic",
+ "n_test": 8500,
+ "batch_throughput_flows_per_s": 3899.2675031948525,
+ "single_latency_ms_median": 3.1863234989941702,
+ "single_latency_ms_p95": 4.809832300179551,
+ "privacy_layer_us_per_flow": 0.6167296470427092,
+ "encoder_params": 61255,
+ "xgb_trees_binary": 165,
+ "train_time_s": 411.2354226112366,
+ "threads": 2
+}

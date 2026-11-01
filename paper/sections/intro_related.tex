@@ -1,60 +1,48 @@
 % ======================================================================
 \section{Introduction}
 % ======================================================================
-Financial institutions operate some of the most attractive targets on the
-Internet: payment switches, core-banking platforms, trading gateways and the
-cloud services that now host them. The financial sector had the second-highest
+Payment switches, core-banking platforms and the cloud services that host
+them are prime targets. The financial sector had the second-highest
 average breach cost of 17 industries in the IBM 2024 study, at
-US\$6.08 million per incident~\cite{ibm2024breach}. Banks are exposed to
-DDoS, ransomware, insider misuse and multi-stage intrusions that blend into
-legitimate traffic~\cite{asmar2024banks,islam2022ddosbank}. Signature-based
-intrusion detection systems (IDS) miss previously unseen attacks, and a
-mostly reactive security operations centre (SOC) learns of an intrusion
-only after the damage is done. This motivates \emph{proactive} detection: every flow
-is scored as it is observed, and analysts are given a ranked and
-explained set of alerts rather than a raw stream of events.
+US\$6.08 million per incident~\cite{ibm2024breach}, and banks face DDoS,
+ransomware, insider misuse and multi-stage
+intrusions~\cite{asmar2024banks,islam2022ddosbank}. Signature-based
+intrusion detection systems (IDS) miss unseen attacks, and a reactive
+security operations centre (SOC) learns of an intrusion only after the damage
+is done. \emph{Proactive} detection instead scores every flow as it is
+observed and gives analysts a ranked, explained set of alerts.
 
-Machine learning (ML) based network IDS are the usual answer, and recent
-work has proposed increasingly elaborate deep models: CNN--LSTM
-hybrids~\cite{halbouni2022cnnlstm,altunay2023cnnlstm},
-attention-augmented recurrent networks~\cite{alashjaee2025attn} and
+Recent ML-based IDS use increasingly elaborate deep models: CNN--LSTM
+hybrids~\cite{halbouni2022cnnlstm,altunay2023cnnlstm}, attention-augmented
+recurrent networks~\cite{alashjaee2025attn} and
 transformers~\cite{wu2022rtids,manocchio2024flowtransformer,akuthota2025iot}.
-Deploying such models inside a regulated financial institution, however,
-raises three practical issues that benchmark accuracy does not capture.
-\textit{(i) Tabular reality.} Flow records are tabular, and on tabular data
-gradient-boosted trees remain hard to beat~\cite{grinsztajn2022tree}. A
-deep detector that is not compared against a tuned boosted-tree baseline may
-overstate its benefit. \textit{(ii) Privacy and compliance.} Flow
+Deploying them in a regulated institution raises three issues that
+benchmark accuracy does not capture.
+\textit{(i) Tabular reality.} Flow records are tabular, where
+gradient-boosted trees remain hard to beat~\cite{grinsztajn2022tree}, so a
+deep detector must be compared with a tuned boosted-tree baseline. \textit{(ii) Privacy and compliance.} Flow
 features such as transferred volumes, session durations and TTL or window
-values act as \emph{quasi-identifiers} of customers and hosts. Under the
-GDPR's data-protection-by-design principle (Art.~25)~\cite{gdpr2016} and the
-PCI~DSS requirement to protect account data~\cite{pcidss4}, the detector, its
-feature store and the statistics shipped with it must not become a new
-leakage channel. \textit{(iii) Auditability.} Compliance officers and SOC
-analysts need to know \emph{why} a flow was flagged and how urgent it
-is~\cite{neupane2022xids}.
+values act as \emph{quasi-identifiers} of customers and hosts. Under GDPR
+Art.~25 (data protection by design)~\cite{gdpr2016} and PCI~DSS~\cite{pcidss4},
+the detector and what it stores must not become a new leakage channel. \textit{(iii) Auditability.} Analysts need to know \emph{why} a flow
+was flagged and how urgent it is~\cite{neupane2022xids}.
 
-This paper presents \textbf{HALX} (\underline{H}ybrid
-\underline{A}ttention-\underline{L}STM + \underline{X}GBoost), a detection
-pipeline for financial network infrastructure that addresses all three
-issues. Our contributions are:
+We present \textbf{HALX} (\underline{H}ybrid
+\underline{A}ttention-\underline{L}STM + \underline{X}GBoost), which
+addresses all three. Our contributions are:
 \begin{itemize}
-  \item A hybrid detector in which a feature-token Attention-LSTM encoder
-        learns a representation of each flow, and an XGBoost
-        head~\cite{chen2016xgboost} scores the representation together with
-        the privatized raw features. Its output is a calibrated
-        threat probability, mapped to three severity tiers.
+  \item A hybrid detector: a feature-token Attention-LSTM encoder learns a
+        flow representation that an XGBoost head~\cite{chen2016xgboost}
+        scores together with the privatized features, yielding a threat
+        probability and three severity tiers.
   \item A privacy-preserving inference layer with \emph{formally stated}
-        guarantees. Multidimensional $k$-anonymity (Mondrian~\cite{lefevre2006mondrian})
-        is enforced on quasi-identifiers, and the preprocessing statistics are
-        released under $(\varepsilon,\delta)$-differential privacy with zCDP
-        accounting~\cite{bun2016zcdp}.
-  \item A reproducible evaluation on UNSW-NB15 (official train/test
-        split)~\cite{moustafa2015unsw} and CICIDS2017~\cite{sharafaldin2018cicids}
-        against seven baselines over three seeds, with an ablation study, a
-        privacy--utility analysis, attention-based explanations and CPU
-        latency measurements. All code and generated results are
-        released.\footnote{\url{https://github.com/mazharulmd/Threat-Detection-for-Financial-Systems}}
+        guarantees: Mondrian $k$-anonymity~\cite{lefevre2006mondrian} on
+        quasi-identifiers and $(\varepsilon,\delta)$-DP preprocessing
+        statistics with zCDP accounting~\cite{bun2016zcdp}.
+  \item A reproducible evaluation on UNSW-NB15~\cite{moustafa2015unsw} and
+        CICIDS2017~\cite{sharafaldin2018cicids} against seven baselines over
+        three seeds, with ablation, privacy--utility, explanation and
+        latency analyses. Code and results are released.\footnote{\url{https://github.com/mazharulmd/Threat-Detection-for-Financial-Systems}}
 \end{itemize}
 
 % ======================================================================

@@ -16,6 +16,31 @@
    "n": 5020,
    "attack_frac": 0.998406374501992
   },
-  "uniform_attention": 0.016666666666666666
+  "uniform_attention": 0.016666666666666666,
+  "fp_share_low_medium": 0.6923076923076923,
+  "alert_share_high": 0.9839278714229713,
+  "top10_attack_mass": 0.41915786266326904
+ },
+ "unsw": {
+  "benign": {
+   "n": 27661,
+   "attack_frac": 0.02646325150934529
+  },
+  "low": {
+   "n": 6813,
+   "attack_frac": 0.22750623807426978
+  },
+  "medium": {
+   "n": 5702,
+   "attack_frac": 0.38179586110136793
+  },
+  "high": {
+   "n": 42156,
+   "attack_frac": 0.9695654236644843
+  },
+  "uniform_attention": 0.023809523809523808,
+  "fp_share_low_medium": 0.872604507993248,
+  "alert_share_high": 0.771085218854603,
+  "top10_attack_mass": 0.5777860283851624
  }
 }

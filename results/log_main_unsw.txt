@@ -93,3 +93,71 @@
 {"acc": 0.8668075596365933, "precision": 0.8145686877562976, "recall": 0.981536221653578, "f1": 0.8902917283604787, "fpr": 0.27375675675675676, "auc": 0.9823718299942049, "macro_f1": 0.4818854462205201, "method": "HALX", "dataset": "unsw", "seed": 1, "train_time_s": 867.5806887149811}
 [unsw s2] train=156701 (after SMOTE) val=26302 test=82332
 == main unsw HALX seed=2
+  ep02 loss=0.6472 val_macroF1=0.4559 (35s)
+  ep03 loss=0.6086 val_macroF1=0.4948 (35s)
+  ep04 loss=0.5888 val_macroF1=0.4978 (35s)
+  ep00 loss=0.9297 val_macroF1=0.3927 (90s)
+  ep05 loss=0.5715 val_macroF1=0.4981 (35s)
+  ep06 loss=0.5609 val_macroF1=0.4983 (35s)
+  ep01 loss=0.6447 val_macroF1=0.4395 (88s)
+  ep07 loss=0.5548 val_macroF1=0.5094 (35s)
+{"acc": 0.8503255113443132, "precision": 0.7952662933610033, "recall": 0.9806097238154063, "f1": 0.878266109514072, "fpr": 0.3092972972972973, "auc": 0.9780582832126223, "macro_f1": 0.4197106577237899, "method": "LSTM", "dataset": "unsw", "seed": 1, "train_time_s": 286.2867422103882}
+== main unsw Transformer seed=1
+  ep02 loss=0.6002 val_macroF1=0.5055 (89s)
+  ep00 loss=0.7212 val_macroF1=0.4655 (130s)
+  ep03 loss=0.5758 val_macroF1=0.4903 (88s)
+  ep04 loss=0.5570 val_macroF1=0.5007 (89s)
+  ep01 loss=0.5626 val_macroF1=0.5356 (134s)
+  ep05 loss=0.5423 val_macroF1=0.5050 (90s)
+  ep02 loss=0.5401 val_macroF1=0.5012 (138s)
+{"acc": 0.8678521109653597, "precision": 0.8162939297124601, "recall": 0.980697961704756, "f1": 0.890975409343247, "fpr": 0.2704054054054054, "auc": 0.9820378993658797, "macro_f1": 0.48911949167660895, "method": "HALX", "dataset": "unsw", "seed": 2, "train_time_s": 679.6915075778961}
+  ep03 loss=0.5288 val_macroF1=0.5164 (140s)
+  ep04 loss=0.5186 val_macroF1=0.5277 (135s)
+{"acc": 0.8338191711606666, "precision": 0.772506543601047, "recall": 0.9896099885290743, "f1": 0.8676840354338323, "fpr": 0.35705405405405405, "auc": 0.9800145875713356, "macro_f1": 0.4223381610124742, "method": "Transformer", "dataset": "unsw", "seed": 1, "train_time_s": 688.0301976203918}
+[unsw s2] train=156701 (after SMOTE) val=26302 test=82332
+== main unsw XGBoost seed=2
+{"acc": 0.8700869649710926, "precision": 0.8182987795912365, "recall": 0.9821318274066885, "f1": 0.8927611790655705, "fpr": 0.2671891891891892, "auc": 0.9829345888949039, "macro_f1": 0.49697678919970717, "method": "XGBoost", "dataset": "unsw", "seed": 2, "train_time_s": 63.63648343086243}
+== main unsw RF seed=2
+{"acc": 0.8679006947480931, "precision": 0.8131908086096568, "recall": 0.986764316597547, "f1": 0.8916085309946183, "fpr": 0.27772972972972976, "auc": 0.9788878946558841, "macro_f1": 0.49158950058868955, "method": "RF", "dataset": "unsw", "seed": 2, "train_time_s": 75.1865508556366}
+== main unsw IsolationForest seed=2
+{"acc": 0.7351698003206529, "precision": 0.7000408107740443, "recall": 0.9081443571869761, "f1": 0.7906280007681966, "fpr": 0.47675675675675677, "auc": 0.8204129697177103, "method": "IsolationForest", "dataset": "unsw", "seed": 2, "train_time_s": 2.957441806793213}
+== main unsw MLP seed=2
+  ep00 loss=0.7117 val_macroF1=0.4448 (2s)
+  ep01 loss=0.5789 val_macroF1=0.4803 (2s)
+  ep02 loss=0.5525 val_macroF1=0.4981 (2s)
+  ep03 loss=0.5362 val_macroF1=0.5110 (2s)
+  ep04 loss=0.5251 val_macroF1=0.5200 (2s)
+  ep05 loss=0.5148 val_macroF1=0.5166 (2s)
+  ep06 loss=0.5087 val_macroF1=0.5271 (2s)
+  ep07 loss=0.5044 val_macroF1=0.5285 (2s)
+{"acc": 0.8627508137783608, "precision": 0.8093368237347295, "recall": 0.9820877084620135, "f1": 0.8873828981463026, "fpr": 0.28345945945945944, "auc": 0.9806459162550885, "macro_f1": 0.42368570131577377, "method": "MLP", "dataset": "unsw", "seed": 2, "train_time_s": 13.910367488861084}
+== main unsw CNN-LSTM seed=2
+  ep00 loss=0.9489 val_macroF1=0.3979 (16s)
+  ep01 loss=0.6409 val_macroF1=0.4579 (15s)
+  ep02 loss=0.5789 val_macroF1=0.4809 (15s)
+  ep03 loss=0.5543 val_macroF1=0.4920 (15s)
+  ep04 loss=0.5394 val_macroF1=0.4879 (15s)
+  ep05 loss=0.5282 val_macroF1=0.5222 (15s)
+  ep06 loss=0.5192 val_macroF1=0.5302 (16s)
+  ep07 loss=0.5139 val_macroF1=0.5288 (16s)
+{"acc": 0.8564227760773454, "precision": 0.8005309131347192, "recall": 0.9845583693638048, "f1": 0.8830588118909828, "fpr": 0.3005675675675676, "auc": 0.9817104688293694, "macro_f1": 0.42366043248663254, "method": "CNN-LSTM", "dataset": "unsw", "seed": 2, "train_time_s": 124.29112648963928}
+== main unsw LSTM seed=2
+  ep00 loss=1.1917 val_macroF1=0.3491 (27s)
+  ep01 loss=0.7143 val_macroF1=0.4115 (27s)
+  ep02 loss=0.6454 val_macroF1=0.4189 (27s)
+  ep03 loss=0.6126 val_macroF1=0.4745 (27s)
+  ep04 loss=0.5913 val_macroF1=0.4748 (27s)
+  ep05 loss=0.5782 val_macroF1=0.4799 (27s)
+  ep06 loss=0.5689 val_macroF1=0.4900 (27s)
+  ep07 loss=0.5624 val_macroF1=0.4897 (27s)
+{"acc": 0.8492445221784968, "precision": 0.7894931232192479, "recall": 0.9902276537545222, "f1": 0.8785399745571973, "fpr": 0.3234864864864865, "auc": 0.9811187598522373, "macro_f1": 0.3993950973996715, "method": "LSTM", "dataset": "unsw", "seed": 2, "train_time_s": 219.0822947025299}
+== main unsw Transformer seed=2
+  ep00 loss=0.7094 val_macroF1=0.4857 (106s)
+  ep01 loss=0.5584 val_macroF1=0.4926 (104s)
+  ep02 loss=0.5400 val_macroF1=0.4946 (104s)
+  ep03 loss=0.5254 val_macroF1=0.5110 (108s)
+  ep04 loss=0.5161 val_macroF1=0.5148 (107s)
+  ep05 loss=0.5053 val_macroF1=0.5158 (107s)
+  ep06 loss=0.4989 val_macroF1=0.5264 (105s)
+  ep07 loss=0.4937 val_macroF1=0.5321 (103s)
+{"acc": 0.8793178836904242, "precision": 0.8287269215052565, "recall": 0.9842274772787435, "f1": 0.8998084098013512, "fpr": 0.24921621621621623, "auc": 0.984880479095967, "macro_f1": 0.4310851743592112, "method": "Transformer", "dataset": "unsw", "seed": 2, "train_time_s": 853.0330665111542}
