@@ -4,3 +4,57 @@
   ep02 loss=0.6498 val_macroF1=0.4366 (46s)
   ep03 loss=0.6205 val_macroF1=0.4544 (45s)
   ep04 loss=0.5938 val_macroF1=0.4638 (47s)
+  ep05 loss=0.5785 val_macroF1=0.4794 (47s)
+  ep06 loss=0.5661 val_macroF1=0.4644 (47s)
+  ep07 loss=0.5621 val_macroF1=0.4870 (45s)
+{"acc": 0.8652893164261769, "precision": 0.8141433787775922, "recall": 0.9787787876114004, "f1": 0.8889022447937014, "fpr": 0.27375675675675676, "auc": 0.981100029571617, "tpr_at_1fpr": 0.8578487602576547, "macro_f1": 0.48436715598554886, "config": "no_attention", "dataset": "unsw", "seed": 0, "train_time_s": 500.2372627258301}
+== ablation unsw no_xgboost seed=0
+  ep00 loss=0.9136 val_macroF1=0.3616 (94s)
+  ep01 loss=0.6697 val_macroF1=0.4506 (96s)
+  ep02 loss=0.6148 val_macroF1=0.4721 (95s)
+  ep03 loss=0.5766 val_macroF1=0.4862 (93s)
+  ep04 loss=0.5547 val_macroF1=0.5115 (94s)
+  ep05 loss=0.5419 val_macroF1=0.5225 (94s)
+  ep06 loss=0.5330 val_macroF1=0.5249 (90s)
+  ep07 loss=0.5288 val_macroF1=0.5250 (90s)
+{"acc": 0.8661030947869601, "precision": 0.8145329861747772, "recall": 0.9799479396452837, "f1": 0.8896165014518874, "fpr": 0.27337837837837836, "auc": 0.9808503631466108, "tpr_at_1fpr": 0.8445689579105268, "macro_f1": 0.4187167808765741, "config": "no_xgboost", "dataset": "unsw", "seed": 0, "train_time_s": 746.2954580783844}
+== ablation unsw no_raw_features seed=0
+  ep00 loss=0.9638 val_macroF1=0.3405 (90s)
+  ep01 loss=0.6614 val_macroF1=0.4300 (91s)
+  ep02 loss=0.5996 val_macroF1=0.4692 (90s)
+  ep03 loss=0.5660 val_macroF1=0.4972 (92s)
+  ep04 loss=0.5507 val_macroF1=0.5228 (89s)
+  ep05 loss=0.5379 val_macroF1=0.5255 (91s)
+  ep06 loss=0.5282 val_macroF1=0.5265 (89s)
+  ep07 loss=0.5232 val_macroF1=0.5307 (91s)
+{"acc": 0.8659937812758102, "precision": 0.8153815032090773, "recall": 0.9780728844966028, "f1": 0.8893480026878215, "fpr": 0.27132432432432435, "auc": 0.9823375117153684, "tpr_at_1fpr": 0.8688784964263655, "macro_f1": 0.4501201673221259, "config": "no_raw_features", "dataset": "unsw", "seed": 0, "train_time_s": 816.0306322574615}
+== ablation unsw no_smote seed=0
+  ep00 loss=0.8668 val_macroF1=0.3768 (79s)
+  ep01 loss=0.5856 val_macroF1=0.3911 (78s)
+  ep02 loss=0.5455 val_macroF1=0.4463 (80s)
+  ep03 loss=0.5226 val_macroF1=0.4574 (79s)
+  ep04 loss=0.5065 val_macroF1=0.4756 (79s)
+  ep05 loss=0.4962 val_macroF1=0.4719 (79s)
+  ep06 loss=0.4891 val_macroF1=0.4810 (83s)
+  ep07 loss=0.4840 val_macroF1=0.4782 (82s)
+{"acc": 0.8695403974153427, "precision": 0.8185702971026505, "recall": 0.9803450101473573, "f1": 0.8921835319153207, "fpr": 0.2662162162162162, "auc": 0.9822154226714139, "tpr_at_1fpr": 0.8606503132445071, "macro_f1": 0.4809199475668386, "config": "no_smote", "dataset": "unsw", "seed": 0, "train_time_s": 761.1102108955383}
+== ablation unsw no_privacy seed=0
+  ep00 loss=0.9764 val_macroF1=0.3492 (93s)
+  ep01 loss=0.6728 val_macroF1=0.4138 (93s)
+  ep02 loss=0.6084 val_macroF1=0.4754 (94s)
+  ep03 loss=0.5736 val_macroF1=0.4996 (96s)
+  ep04 loss=0.5519 val_macroF1=0.5077 (95s)
+  ep05 loss=0.5389 val_macroF1=0.5131 (92s)
+  ep06 loss=0.5307 val_macroF1=0.5177 (92s)
+  ep07 loss=0.5268 val_macroF1=0.5176 (90s)
+{"acc": 0.8687994947286596, "precision": 0.8171963990446445, "recall": 0.9812053295685167, "f1": 0.8917222990717909, "fpr": 0.2689189189189189, "auc": 0.9835159993775652, "tpr_at_1fpr": 0.8732683314215124, "macro_f1": 0.49148925703796265, "config": "no_privacy", "dataset": "unsw", "seed": 0, "train_time_s": 874.5293056964874}
+== ablation unsw lstm_only seed=0
+  ep00 loss=1.2102 val_macroF1=0.3759 (41s)
+  ep01 loss=0.7115 val_macroF1=0.4152 (42s)
+  ep02 loss=0.6440 val_macroF1=0.4443 (41s)
+  ep03 loss=0.6134 val_macroF1=0.4499 (42s)
+  ep04 loss=0.5982 val_macroF1=0.4648 (41s)
+  ep05 loss=0.5801 val_macroF1=0.4677 (41s)
+  ep06 loss=0.5697 val_macroF1=0.4936 (41s)
+  ep07 loss=0.5630 val_macroF1=0.4893 (41s)
+{"acc": 0.8445561871447311, "precision": 0.7851358457493427, "recall": 0.9880878849377923, "f1": 0.8749975581645211, "fpr": 0.3312972972972973, "auc": 0.9808623372666763, "tpr_at_1fpr": 0.8251345627812583, "macro_f1": 0.3981798703641938, "config": "lstm_only", "dataset": "unsw", "seed": 0, "train_time_s": 329.26201844215393}

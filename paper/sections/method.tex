@@ -7,28 +7,14 @@ layer, (2) an Attention-LSTM encoder and (3) an XGBoost scoring head with
 severity triage. Algorithm~\ref{alg:halx} summarizes training.
 
 \textbf{Problem and threat model.} A flow exporter in the institution's
-network (core banking, payment switching, online-banking front-ends)
-summarizes each bidirectional flow as a record with $d$ numeric and $c$
+network summarizes each flow as a record with $d$ numeric and $c$
 categorical attributes. External or insider attackers generate
 reconnaissance, exploit, DoS, brute-force, botnet and web-attack flows. For
 every flow HALX outputs a threat score $p\in[0,1]$, a decision
-$\hat{y}=\mathbb{1}[p\ge\tau]$, an attack family and a severity tier. We
-additionally consider an \emph{honest-but-curious} operator, vendor or
-auditor who can see the detector's stored inputs and its released
-preprocessing statistics. Against this party HALX must limit the
-re-identification of individual flows.
+$\hat{y}=\mathbb{1}[p\ge\tau]$, an attack family and a severity tier. An
+\emph{honest-but-curious} operator or auditor who sees the stored inputs
+and released statistics must not be able to re-identify individual flows.
 
-\begin{figure*}[t]
-\centering
-\resizebox{0.97\textwidth}{!}{\input{figures/architecture.tex}}
-\caption{The HALX pipeline. Raw flow records pass through the privacy layer
-(direct-identifier suppression, Mondrian $k$-anonymous generalization of
-quasi-identifiers, DP standardization). The Attention-LSTM encoder reads the
-privatized record as a sequence of feature tokens and produces an embedding
-$\mathbf{e}$. XGBoost scores $[\mathbf{e}\Vert\tilde{\mathbf{x}}]$, and the score is
-mapped to a severity tier together with the most-attended features.}
-\label{fig:architecture}
-\end{figure*}
 
 \subsection{Privacy-Preserving Layer}
 \label{sec:privacy}
@@ -53,7 +39,7 @@ $k=10$ by default and verify the smallest equivalence class after fitting.
 \textit{DP standardization.} Standardization needs per-feature means and
 variances, which are normally shipped with a model and can reveal individual
 records when an outlier dominates. We release them with the Gaussian
-mechanism. With values clipped to $[-C,C]$ ($C=25$ in $g$-space) and public
+mechanism~\cite{dwork2014foundations}. With values clipped to $[-C,C]$ ($C=25$ in $g$-space) and public
 $n$, the sums $S_1=\sum_i x_i$ and $S_2=\sum_i x_i^2$ have replace-one
 sensitivities $2C$ and $C^2$. Each of the $2d$ released sums receives noise
 $\mathcal{N}(0,\Delta^2/2\rho_q)$ with $\rho_q=\rho/2d$, where

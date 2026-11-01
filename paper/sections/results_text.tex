@@ -72,7 +72,19 @@ CICIDS2017: 3 seeds; UNSW-NB15: \ABLunswSeeds{}.}
 \setlength{\tabcolsep}{2.6pt}
 \input{generated/table_ablation}
 \end{table}
-\ABLATIONTEXT{}
+Table~\ref{tab:ablation} isolates each component. The XGBoost head
+matters most: replacing it with the encoder's dense softmax head raises the
+CICIDS2017 FPR from \cicablfullfpr\% to \cicablnoxgboostfpr\% and lowers
+UNSW-NB15 macro-F1 from \unswablfullmfOne\% to \unswablnoxgboostmfOne\%.
+Passing the raw features to the head alongside the embedding also helps
+on both datasets. Attention pooling gives a smaller gain in binary F1
+(\cicablnoattentionfOne\%$\to$\cicablfullfOne\% and
+\unswablnoattentionfOne\%$\to$\unswablfullfOne\%) and, more importantly,
+provides the explanations of Sec.~\ref{sec:explain}. SMOTE, common in
+IDS pipelines~\cite{ullah2023idsint}, did \emph{not} help: binary F1 is unchanged without it, and
+CICIDS2017 macro-F1 is even higher (\cicablnosmotemfOne\%). We report it
+for completeness and recommend omitting it. Removing the privacy layer
+changes F1 by only \cicprivcost{} and \unswprivcost{} points.
 
 \subsection{Privacy--Utility Trade-off}
 \begin{figure}[t]
@@ -83,9 +95,24 @@ anonymity level $k$ (right, $\varepsilon=1$). $\varepsilon=\infty$ and
 $k=1$ disable the respective mechanism.}
 \label{fig:privacy}
 \end{figure}
-\PRIVACYTEXT{}
+Fig.~\ref{fig:privacy} varies one mechanism at a time (XGBoost on both
+datasets; HALX on CICIDS2017, $\varepsilon$ only). DP standardization is
+essentially free for $\varepsilon\ge1$ ($|\Delta\mathrm{F1}|\le0.07$).
+Only at $\varepsilon=0.01$, where the noise added to each released mean
+has a standard deviation of 6.6 in $g$-space, does CICIDS2017 lose 2.0 F1
+points, because the noisy statistics push many values to the clipping
+bounds. UNSW-NB15 has almost four times as many training flows, and since
+the noise shrinks as $1/n$ its F1 does not degrade even at
+$\varepsilon=0.01$. Generalizing the quasi-identifiers costs 0.09--0.36
+F1 points on CICIDS2017 for $k$ from 5 to 500, and at most 0.27 on
+UNSW-NB15. The audited minimum equivalence-class size always met $k$ (for
+example 515 at $k=500$). HALX follows the same pattern
+($\Delta$F1 of $-1.94$, $-0.22$ and $+0.01$ at $\varepsilon=0.01$, $0.1$
+and $1$), so the default $\varepsilon=1$, $k=10$ is a sensible operating
+point.
 
 \subsection{Explainability and Severity Triage}
+\label{sec:explain}
 \begin{figure}[t]
 \centering
 \attnfig{unsw}
@@ -123,5 +150,5 @@ The HALX encoder has only \cicparams{} (CICIDS2017) and \unswparams{}
 \unswHALXtime{} minutes, respectively, including both XGBoost heads. In batch
 mode HALX scores \cicthru{} and \unswthru{} flows/s. Scoring a single flow
 takes a median of \unswlatmed\,ms (p95 \unswlatpn\,ms) on UNSW-NB15, and the
-privacy layer adds less than \unswprivus\,$\mu$s per flow. No GPU is
+privacy layer adds about \unswprivus\,$\mu$s per flow. No GPU is
 required.

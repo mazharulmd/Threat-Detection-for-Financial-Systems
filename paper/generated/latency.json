@@ -1,4 +1,16 @@
 {
+ "unsw": {
+  "dataset": "unsw",
+  "n_test": 82332,
+  "batch_throughput_flows_per_s": 4885.199847393143,
+  "single_latency_ms_median": 3.7371349999375525,
+  "single_latency_ms_p95": 4.881647200727457,
+  "privacy_layer_us_per_flow": 0.7262942598301234,
+  "encoder_params": 61690,
+  "xgb_trees_binary": 542,
+  "train_time_s": 889.3018820285797,
+  "threads": 2
+ },
  "cic": {
   "dataset": "cic",
   "n_test": 8500,

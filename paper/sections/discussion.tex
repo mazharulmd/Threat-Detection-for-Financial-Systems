@@ -2,31 +2,27 @@
 \section{Discussion and Limitations}
 \label{sec:discussion}
 % ======================================================================
-\textbf{What the privacy layer does and does not guarantee.} HALX guarantees
-(a) $k$-anonymity of the quasi-identifiers that the detector stores, logs or
-forwards to analysts, and (b) $(\varepsilon,\delta)$-DP of the released
-normalization statistics. It does \emph{not} make the trained encoder or
-the trees differentially private: a white-box adversary could still mount
-membership inference against the weights. Training with
-DP-SGD~\cite{abadi2016dpsgd} or in a federated setting across
-institutions~\cite{mcmahan2017fedavg,ruzafa2023fl} is the natural next step.
-Mondrian generalization also does not protect against attribute
-disclosure within an equivalence class, a known limitation of
-$k$-anonymity~\cite{sweeney2002kanon}.
+\textbf{Scope of the privacy guarantees.} HALX guarantees
+$k$-anonymity of the quasi-identifiers it stores, logs or forwards, and
+$(\varepsilon,\delta)$-DP of the released normalization statistics. It does
+\emph{not} make the encoder or the trees differentially private: a
+white-box adversary could still attempt membership inference on the
+weights. DP-SGD~\cite{abadi2016dpsgd} or federated training across
+institutions~\cite{mcmahan2017fedavg,ruzafa2023fl} would close this gap.
+$k$-anonymity also does not prevent attribute disclosure within an
+equivalence class~\cite{sweeney2002kanon}.
 
 \textbf{Benchmarks vs.\ bank traffic.} Neither benchmark is financial
-traffic, and models trained on CICIDS2017 are known to transfer poorly to
-other networks~\cite{catillo2022transferability}. Our CICIDS2017 numbers come
-from a 2\% stratified subset and are near the ceiling for every
-tree-based model. The UNSW-NB15 official split, where the test distribution
-differs from training, is more informative. Validating HALX on
-institution-specific flow logs under a data-sharing agreement is planned.
+traffic, and CICIDS2017 models transfer poorly to other
+networks~\cite{catillo2022transferability}. Our CICIDS2017 subset (2\% of
+the flows) is near the ceiling for all tree-based models, so the shifted
+UNSW-NB15 split is more informative. Validation on bank flow logs is
+planned.
 
 \textbf{Temporal context.} HALX scores flows independently. Multi-stage
-APT campaigns need cross-flow context (for example host-level session
-graphs or windows over timestamped flows); the public partitions used here
-lack timestamps, so we chose leak-free per-flow modelling over window-based
-designs whose gains could come from label ordering.
+APT campaigns need cross-flow context (host-level session graphs or
+windows over timestamped flows), which the public partitions used here,
+lacking timestamps, cannot support without label leakage.
 
 \textbf{Adversarial robustness.} We did not evaluate evasion attacks, which
 \cite{arp2022dos} lists among the evaluation gaps in ML-based security. We

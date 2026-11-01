@@ -18,3 +18,73 @@
 {"acc": 0.9942352941176471, "precision": 0.9929591238020732, "recall": 0.9974459724950884, "f1": 0.995197490934039, "fpr": 0.010557184750733138, "auc": 0.9993276737205377, "tpr_at_1fpr": 0.9972495088408644, "macro_f1": 0.9792875280421897, "kind": "k", "value": 100, "k": 100, "eps": 1.0, "dataset": "cic", "seed": 0, "model": "XGBoost", "n_leaves": 282, "min_class_size": 100, "mean_noise_std": 0.06767547300076432}
 == privacy cic XGBoost_k500 seed=0
 {"acc": 0.9929411764705882, "precision": 0.9915949960906959, "recall": 0.9966601178781925, "f1": 0.9941211052322163, "fpr": 0.012609970674486803, "auc": 0.9993178217308389, "tpr_at_1fpr": 0.9956777996070727, "macro_f1": 0.9775263552692286, "kind": "k", "value": 500, "k": 500, "eps": 1.0, "dataset": "cic", "seed": 0, "model": "XGBoost", "n_leaves": 56, "min_class_size": 515, "mean_noise_std": 0.06767547300076432}
+== privacy cic HALX_eps0.01 seed=0
+  ep00 loss=1.1046 val_macroF1=0.4830 (45s)
+  ep01 loss=0.5777 val_macroF1=0.6366 (47s)
+  ep02 loss=0.4440 val_macroF1=0.6748 (46s)
+  ep03 loss=0.3702 val_macroF1=0.7211 (46s)
+  ep04 loss=0.3494 val_macroF1=0.7099 (44s)
+  ep05 loss=0.3350 val_macroF1=0.7499 (45s)
+  ep06 loss=0.3013 val_macroF1=0.7817 (45s)
+  ep07 loss=0.2687 val_macroF1=0.7974 (45s)
+  ep08 loss=0.2392 val_macroF1=0.8137 (44s)
+  ep09 loss=0.2595 val_macroF1=0.8337 (43s)
+  ep10 loss=0.2244 val_macroF1=0.8152 (42s)
+  ep11 loss=0.2149 val_macroF1=0.8209 (43s)
+  ep12 loss=0.2034 val_macroF1=0.8496 (44s)
+  ep13 loss=0.1993 val_macroF1=0.8568 (43s)
+  ep14 loss=0.1985 val_macroF1=0.8525 (44s)
+{"acc": 0.9712941176470589, "precision": 0.9704854368932039, "recall": 0.9819253438113948, "f1": 0.976171875, "fpr": 0.04457478005865103, "auc": 0.9967195178862586, "tpr_at_1fpr": 0.9284479371316307, "macro_f1": 0.938840556752082, "kind": "eps", "value": 0.01, "k": 10, "eps": 0.01, "dataset": "cic", "seed": 0, "model": "HALX", "n_leaves": 2575, "min_class_size": 10, "mean_noise_std": 6.628086028444745}
+== privacy cic HALX_eps0.1 seed=0
+  ep00 loss=1.1055 val_macroF1=0.5313 (44s)
+  ep01 loss=0.4900 val_macroF1=0.6913 (44s)
+  ep02 loss=0.3065 val_macroF1=0.7765 (43s)
+  ep03 loss=0.2225 val_macroF1=0.8718 (43s)
+  ep04 loss=0.1810 val_macroF1=0.8422 (43s)
+  ep05 loss=0.1664 val_macroF1=0.8601 (44s)
+  ep06 loss=0.1516 val_macroF1=0.8526 (44s)
+{"acc": 0.992, "precision": 0.9900468384074942, "recall": 0.9966601178781925, "f1": 0.9933424711180733, "fpr": 0.014956011730205278, "auc": 0.9991154814511808, "tpr_at_1fpr": 0.9946954813359529, "macro_f1": 0.978099461006111, "kind": "eps", "value": 0.1, "k": 10, "eps": 0.1, "dataset": "cic", "seed": 0, "model": "HALX", "n_leaves": 2575, "min_class_size": 10, "mean_noise_std": 0.6641005852927464}
+== privacy cic HALX_eps1.0 seed=0
+  ep00 loss=1.1731 val_macroF1=0.3497 (43s)
+  ep01 loss=0.5409 val_macroF1=0.5987 (43s)
+  ep02 loss=0.3421 val_macroF1=0.7565 (44s)
+  ep03 loss=0.2467 val_macroF1=0.8076 (44s)
+  ep04 loss=0.1819 val_macroF1=0.8349 (45s)
+  ep05 loss=0.1552 val_macroF1=0.8798 (44s)
+  ep06 loss=0.1356 val_macroF1=0.8875 (45s)
+  ep07 loss=0.1221 val_macroF1=0.9046 (43s)
+  ep08 loss=0.1077 val_macroF1=0.9192 (44s)
+  ep09 loss=0.0983 val_macroF1=0.9195 (44s)
+  ep10 loss=0.0935 val_macroF1=0.9108 (44s)
+  ep11 loss=0.0876 val_macroF1=0.8969 (44s)
+  ep12 loss=0.0846 val_macroF1=0.9122 (44s)
+{"acc": 0.9948235294117647, "precision": 0.9941245593419507, "recall": 0.9972495088408644, "f1": 0.9956845821890937, "fpr": 0.008797653958944282, "auc": 0.9993650651902126, "tpr_at_1fpr": 0.9976424361493124, "macro_f1": 0.9775908067141524, "kind": "eps", "value": 1.0, "k": 10, "eps": 1.0, "dataset": "cic", "seed": 0, "model": "HALX", "n_leaves": 2575, "min_class_size": 10, "mean_noise_std": 0.06767547300076432}
+== privacy cic HALX_eps10.0 seed=0
+  ep00 loss=1.2217 val_macroF1=0.3282 (43s)
+  ep01 loss=0.5966 val_macroF1=0.6613 (43s)
+  ep02 loss=0.2905 val_macroF1=0.7732 (43s)
+  ep03 loss=0.1980 val_macroF1=0.8144 (43s)
+  ep04 loss=0.1587 val_macroF1=0.8344 (43s)
+  ep05 loss=0.1336 val_macroF1=0.8522 (42s)
+  ep06 loss=0.1150 val_macroF1=0.8641 (43s)
+  ep07 loss=0.1030 val_macroF1=0.8745 (42s)
+  ep08 loss=0.1036 val_macroF1=0.8933 (42s)
+  ep09 loss=0.0906 val_macroF1=0.8886 (42s)
+  ep10 loss=0.0855 val_macroF1=0.8776 (42s)
+  ep11 loss=0.0806 val_macroF1=0.8941 (44s)
+  ep12 loss=0.0780 val_macroF1=0.9038 (42s)
+  ep13 loss=0.0759 val_macroF1=0.8917 (42s)
+  ep14 loss=0.0755 val_macroF1=0.8878 (43s)
+{"acc": 0.9945882352941177, "precision": 0.9939287113200157, "recall": 0.9970530451866405, "f1": 0.9954884268340526, "fpr": 0.00909090909090909, "auc": 0.9992838582926675, "tpr_at_1fpr": 0.9972495088408644, "macro_f1": 0.9547323945116719, "kind": "eps", "value": 10.0, "k": 10, "eps": 10.0, "dataset": "cic", "seed": 0, "model": "HALX", "n_leaves": 2575, "min_class_size": 10, "mean_noise_std": 0.007842515942195908}
+== privacy cic HALX_epsNone seed=0
+  ep00 loss=1.2783 val_macroF1=0.3396 (42s)
+  ep01 loss=0.6638 val_macroF1=0.5626 (42s)
+  ep02 loss=0.3690 val_macroF1=0.7398 (44s)
+  ep03 loss=0.2199 val_macroF1=0.8550 (43s)
+  ep04 loss=0.1808 val_macroF1=0.8729 (45s)
+  ep05 loss=0.1449 val_macroF1=0.8561 (42s)
+  ep06 loss=0.1330 val_macroF1=0.8860 (42s)
+  ep07 loss=0.1233 val_macroF1=0.8855 (44s)
+  ep08 loss=0.1081 val_macroF1=0.8786 (43s)
+  ep09 loss=0.1053 val_macroF1=0.8805 (45s)
+{"acc": 0.9947058823529412, "precision": 0.9939299001370667, "recall": 0.9972495088408644, "f1": 0.9955869373345102, "fpr": 0.00909090909090909, "auc": 0.9992927596517812, "tpr_at_1fpr": 0.9974459724950884, "macro_f1": 0.9657863624172653, "kind": "eps", "value": null, "k": 10, "eps": null, "dataset": "cic", "seed": 0, "model": "HALX", "n_leaves": 2575, "min_class_size": 10, "mean_noise_std": 0.0}

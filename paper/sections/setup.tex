@@ -41,11 +41,9 @@ family~\cite{wu2022rtids,manocchio2024flowtransformer}. The deep baselines
 use the same optimizer, schedule and early-stopping rule as HALX.
 
 \subsection{Implementation}
-HALX is implemented in PyTorch~2.x, XGBoost~3.x and scikit-learn. The privacy layer
-(Mondrian tree and zCDP standardizer) is written from scratch in NumPy
-(${\approx}150$ lines). All experiments ran on a 4-core x86 CPU with 16\,GB
-RAM and no GPU, which matches the commodity servers found in a bank's SOC.
-Training runs for at most 15 epochs (8 on the larger UNSW-NB15) with
-patience 3. Metrics are accuracy, precision, recall, F1 and false-positive
-rate (FPR) for the binary attack-vs-benign decision at $\tau=0.5$, ROC-AUC,
-and macro-F1 (M-F1) over attack families.
+HALX uses PyTorch~2, XGBoost~3 and scikit-learn; the privacy layer
+(Mondrian tree, zCDP standardizer) is ${\approx}150$ lines of NumPy. All
+runs used a 4-core x86 CPU (16\,GB RAM, no GPU), at most 15 epochs (8 on
+UNSW-NB15) and patience 3. We report accuracy, precision, recall, F1 and
+FPR for the binary decision at $\tau=0.5$, ROC-AUC, and macro-F1 (M-F1)
+over attack families.

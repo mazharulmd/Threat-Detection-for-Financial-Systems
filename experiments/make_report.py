@@ -220,6 +220,14 @@ def numbers():
     def mean(ds, meth, k):
         recs = load(f"main_{ds}_{meth}_s*.json")
         return agg(recs, k)[0] if recs else np.nan
+    costs = []
+    for ds in ["cic", "unsw"]:
+        full, nop = load(f"ablation_{ds}_full_s*.json"), load(f"ablation_{ds}_no_privacy_s*.json")
+        if full and nop:
+            seeds = {r["seed"] for r in nop}
+            costs.append(100 * (agg(nop, "f1")[0] - agg([r for r in full if r["seed"] in seeds], "f1")[0]))
+    if costs:
+        L.append(f"\\newcommand{{\\PRIVCOSTMAX}}{{{max(costs):.2f}}}")
     for ds in ["cic", "unsw"]:
         g = 100 * (mean(ds, "HALX", "f1") - mean(ds, "LSTM", "f1"))
         if not np.isnan(g):

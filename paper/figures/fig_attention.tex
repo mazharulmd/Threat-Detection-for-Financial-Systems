@@ -3,8 +3,8 @@
 \newcommand{\attnfig}[1]{%
 \begin{tikzpicture}
 \begin{axis}[
-  halxbase, xbar=0pt, width=0.95\columnwidth, height=0.62\columnwidth,
-  bar width=2.3pt, xmin=0, xlabel={Mean attention weight $\bar\alpha_j$ (\%)},
+  halxbase, xbar=0pt, width=0.95\columnwidth, height=0.5\columnwidth,
+  bar width=1.9pt, xmin=0, xlabel={Mean attention weight $\bar\alpha_j$ (\%)},
   ytick=data, yticklabels from table={generated/attn_#1.dat}{name},
   y tick label style={font=\tiny}, enlarge y limits=0.06,
   legend style={at={(0.98,0.03)}, anchor=south east, font=\tiny},

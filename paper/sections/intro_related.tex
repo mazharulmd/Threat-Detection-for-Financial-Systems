@@ -1,6 +1,17 @@
 % ======================================================================
 \section{Introduction}
 % ======================================================================
+\begin{figure*}[t]
+\centering
+\resizebox{0.97\textwidth}{!}{\input{figures/architecture.tex}}
+\caption{The HALX pipeline. Raw flow records pass through the privacy layer
+(direct-identifier suppression, Mondrian $k$-anonymous generalization of
+quasi-identifiers, DP standardization). The Attention-LSTM encoder reads the
+privatized record as a sequence of feature tokens and produces an embedding
+$\mathbf{e}$. XGBoost scores $[\mathbf{e}\Vert\tilde{\mathbf{x}}]$, and the score is
+mapped to a severity tier together with the most-attended features.}
+\label{fig:architecture}
+\end{figure*}
 Payment switches, core-banking platforms and the cloud services that host
 them are prime targets. The financial sector had the second-highest
 average breach cost of 17 industries in the IBM 2024 study, at
@@ -84,13 +95,11 @@ namely generalized quasi-identifiers in its inputs and logs and the
 normalization statistics shipped with the model. The two approaches can be
 combined.
 
-\textbf{Evaluation pitfalls.} CICIDS2017 contains labelling and flow-construction
-errors~\cite{engelen2021troubleshooting}, and models trained on it transfer
-poorly to related traffic~\cite{catillo2022transferability}. Arp et
-al.~\cite{arp2022dos} catalogue pitfalls such as data snooping and
-inappropriate baselines. We follow their recommendations: the test
-partitions are never used for model selection, a tuned XGBoost baseline is
-always included, and every number is reported as a mean over seeds.
-Explainability is surveyed in~\cite{neupane2022xids}, and
-\cite{barnard2022xai} pairs XGBoost with SHAP for NIDS. HALX instead
-explains each alert through its intrinsic attention weights.
+\textbf{Evaluation pitfalls and explainability.} CICIDS2017 has labelling
+errors~\cite{engelen2021troubleshooting} and transfers
+poorly~\cite{catillo2022transferability}, and Arp et al.~\cite{arp2022dos}
+warn against data snooping and weak baselines. We therefore never use test
+data for model selection, always include a tuned XGBoost, and report means
+over seeds. Unlike post-hoc SHAP explanations of XGBoost
+NIDS~\cite{neupane2022xids,barnard2022xai}, HALX explains alerts through its
+intrinsic attention weights.

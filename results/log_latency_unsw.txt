@@ -3,3 +3,7 @@
   ep02 loss=0.6333 val_macroF1=0.4385 (93s)
   ep03 loss=0.6099 val_macroF1=0.4630 (96s)
   ep04 loss=0.5799 val_macroF1=0.4767 (96s)
+  ep05 loss=0.5637 val_macroF1=0.4892 (96s)
+  ep06 loss=0.5497 val_macroF1=0.5017 (92s)
+  ep07 loss=0.5433 val_macroF1=0.5049 (93s)
+{"dataset": "unsw", "n_test": 82332, "batch_throughput_flows_per_s": 4885.199847393143, "single_latency_ms_median": 3.7371349999375525, "single_latency_ms_p95": 4.881647200727457, "privacy_layer_us_per_flow": 0.7262942598301234, "encoder_params": 61690, "xgb_trees_binary": 542, "train_time_s": 889.3018820285797, "threads": 2}
